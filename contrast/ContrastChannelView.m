@@ -33,7 +33,31 @@ static const CGFloat ContrastChannelViewMaximumScale = 2.0;
 - (void)_panRecognized:(UIPanGestureRecognizer *)panRecognizer
 {
 	CGPoint translation = [panRecognizer translationInView:self.superview];
-	self.center = CGPointMake(self.startCenter.x + translation.x, self.startCenter.y + translation.y);
+	CGRect superviewBounds = self.superview.bounds;
+	
+	// TODO: Some kind of resistance at the edges would be nice, so that it doesn't just stop.
+	
+	CGFloat x = self.startCenter.x + translation.x;
+	if (x < superviewBounds.origin.x)
+	{
+		x = superviewBounds.origin.x;
+	}
+	else if (x > superviewBounds.size.width)
+	{
+		x = superviewBounds.size.width;
+	}
+	
+	CGFloat y = self.startCenter.y + translation.y;
+	if (y < superviewBounds.origin.y)
+	{
+		y = superviewBounds.origin.y;
+	}
+	else if (y > superviewBounds.size.height)
+	{
+		y = superviewBounds.size.height;
+	}
+	
+	self.center = CGPointMake(x, y);
 	
 	if (panRecognizer.state == UIGestureRecognizerStateEnded ||
 		panRecognizer.state == UIGestureRecognizerStateCancelled ||
