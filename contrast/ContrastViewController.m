@@ -29,4 +29,9 @@
 	[self.view addSubview:channelView3];
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+	return YES;
+}
+
 @end
