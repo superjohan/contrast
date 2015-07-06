@@ -72,6 +72,8 @@ static const CGFloat ContrastChannelViewMaximumScale = 2.0;
 	CGFloat scale = pinchRecognizer.scale;
 	CGFloat adjustedScale = self.startScale * scale;
 
+	// TODO: Some kind of resistance at min/max would be nice, so that it doesn't just stop.
+
 	if (adjustedScale <= ContrastChannelViewMinimumScale)
 	{
 		adjustedScale = ContrastChannelViewMinimumScale;
