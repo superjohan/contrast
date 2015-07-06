@@ -1,0 +1,313 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9002993B1B4A8D770093DCE7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9002993A1B4A8D770093DCE7 /* main.m */; };
+		9002993E1B4A8D770093DCE7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9002993D1B4A8D770093DCE7 /* AppDelegate.m */; };
+		900299411B4A8D770093DCE7 /* ContrastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900299401B4A8D770093DCE7 /* ContrastViewController.m */; };
+		900299441B4A8D770093DCE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 900299421B4A8D770093DCE7 /* Main.storyboard */; };
+		900299461B4A8D770093DCE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 900299451B4A8D770093DCE7 /* Assets.xcassets */; };
+		900299491B4A8D770093DCE7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 900299471B4A8D770093DCE7 /* LaunchScreen.storyboard */; };
+		900299521B4A8DED0093DCE7 /* ContrastChannelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 900299511B4A8DED0093DCE7 /* ContrastChannelView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		900299361B4A8D770093DCE7 /* contrast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = contrast.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9002993A1B4A8D770093DCE7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9002993C1B4A8D770093DCE7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		9002993D1B4A8D770093DCE7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		9002993F1B4A8D770093DCE7 /* ContrastViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContrastViewController.h; sourceTree = "<group>"; };
+		900299401B4A8D770093DCE7 /* ContrastViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContrastViewController.m; sourceTree = "<group>"; };
+		900299431B4A8D770093DCE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		900299451B4A8D770093DCE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		900299481B4A8D770093DCE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9002994A1B4A8D770093DCE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		900299501B4A8DED0093DCE7 /* ContrastChannelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContrastChannelView.h; sourceTree = "<group>"; };
+		900299511B4A8DED0093DCE7 /* ContrastChannelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContrastChannelView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		900299331B4A8D770093DCE7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9002992D1B4A8D770093DCE7 = {
+			isa = PBXGroup;
+			children = (
+				900299381B4A8D770093DCE7 /* contrast */,
+				900299371B4A8D770093DCE7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		900299371B4A8D770093DCE7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				900299361B4A8D770093DCE7 /* contrast.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		900299381B4A8D770093DCE7 /* contrast */ = {
+			isa = PBXGroup;
+			children = (
+				9002993C1B4A8D770093DCE7 /* AppDelegate.h */,
+				9002993D1B4A8D770093DCE7 /* AppDelegate.m */,
+				9002993F1B4A8D770093DCE7 /* ContrastViewController.h */,
+				900299401B4A8D770093DCE7 /* ContrastViewController.m */,
+				900299501B4A8DED0093DCE7 /* ContrastChannelView.h */,
+				900299511B4A8DED0093DCE7 /* ContrastChannelView.m */,
+				900299421B4A8D770093DCE7 /* Main.storyboard */,
+				900299451B4A8D770093DCE7 /* Assets.xcassets */,
+				900299471B4A8D770093DCE7 /* LaunchScreen.storyboard */,
+				9002994A1B4A8D770093DCE7 /* Info.plist */,
+				900299391B4A8D770093DCE7 /* Supporting Files */,
+			);
+			path = contrast;
+			sourceTree = "<group>";
+		};
+		900299391B4A8D770093DCE7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9002993A1B4A8D770093DCE7 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		900299351B4A8D770093DCE7 /* contrast */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9002994D1B4A8D770093DCE7 /* Build configuration list for PBXNativeTarget "contrast" */;
+			buildPhases = (
+				900299321B4A8D770093DCE7 /* Sources */,
+				900299331B4A8D770093DCE7 /* Frameworks */,
+				900299341B4A8D770093DCE7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = contrast;
+			productName = contrast;
+			productReference = 900299361B4A8D770093DCE7 /* contrast.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9002992E1B4A8D770093DCE7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Aero Deko";
+				TargetAttributes = {
+					900299351B4A8D770093DCE7 = {
+						CreatedOnToolsVersion = 7.0;
+					};
+				};
+			};
+			buildConfigurationList = 900299311B4A8D770093DCE7 /* Build configuration list for PBXProject "contrast" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9002992D1B4A8D770093DCE7;
+			productRefGroup = 900299371B4A8D770093DCE7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				900299351B4A8D770093DCE7 /* contrast */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		900299341B4A8D770093DCE7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				900299491B4A8D770093DCE7 /* LaunchScreen.storyboard in Resources */,
+				900299461B4A8D770093DCE7 /* Assets.xcassets in Resources */,
+				900299441B4A8D770093DCE7 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		900299321B4A8D770093DCE7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				900299411B4A8D770093DCE7 /* ContrastViewController.m in Sources */,
+				9002993E1B4A8D770093DCE7 /* AppDelegate.m in Sources */,
+				900299521B4A8DED0093DCE7 /* ContrastChannelView.m in Sources */,
+				9002993B1B4A8D770093DCE7 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		900299421B4A8D770093DCE7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				900299431B4A8D770093DCE7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		900299471B4A8D770093DCE7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				900299481B4A8D770093DCE7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9002994B1B4A8D770093DCE7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		9002994C1B4A8D770093DCE7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9002994E1B4A8D770093DCE7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = contrast/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.aerodeko.contrast;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9002994F1B4A8D770093DCE7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = contrast/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.aerodeko.contrast;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		900299311B4A8D770093DCE7 /* Build configuration list for PBXProject "contrast" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9002994B1B4A8D770093DCE7 /* Debug */,
+				9002994C1B4A8D770093DCE7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9002994D1B4A8D770093DCE7 /* Build configuration list for PBXNativeTarget "contrast" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9002994E1B4A8D770093DCE7 /* Debug */,
+				9002994F1B4A8D770093DCE7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9002992E1B4A8D770093DCE7 /* Project object */;
+}
