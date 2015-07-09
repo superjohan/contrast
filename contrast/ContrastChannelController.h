@@ -16,6 +16,7 @@
 - (void)removeView:(ContrastChannelView *)channelView;
 
 - (void)updateChannelWithView:(ContrastChannelView *)channelView
-			frequencyPosition:(float)frequencyPosition;
+			frequencyPosition:(float)frequencyPosition
+					   volume:(float)volume;
 
 @end

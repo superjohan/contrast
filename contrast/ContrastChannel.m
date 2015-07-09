@@ -30,10 +30,18 @@ static float getFrequencyFromPosition(float frequencyPosition)
 	return ContrastChannelFrequencyMinimum + ((ContrastChannelFrequencyMaximum - ContrastChannelFrequencyMinimum) * frequencyPosition);
 }
 
+static float calculateVolume(float volume)
+{
+	return (volume * volume); // *shrug* you're not my dad
+}
+
 static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioController, const AudioTimeStamp *time, UInt32 frames, AudioBufferList *audio)
 {
+	// TODO: Keep volume and active states in an ivar so that we can interpolate between changes.
+	
 	float frequency = getFrequencyFromPosition(this->_frequencyPosition);
 	BOOL active = (this->_view != nil);
+	float volume = calculateVolume(this->_volume);
 	
 	for (NSInteger i = 0; i < frames; i++)
 	{
@@ -45,7 +53,7 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 			angle = fmodf(angle, PI2);
 			this->angle = angle;
 			
-			sample = sin(angle);
+			sample = sin(angle) * volume;
 		}
 		else
 		{
@@ -59,6 +67,20 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 	return noErr;
 }
 
+static float clamp(float value, float min, float max)
+{
+	if (value < min)
+	{
+		value = min;
+	}
+	else if (value > max)
+	{
+		value = max;
+	}
+	
+	return value;
+}
+
 - (AEAudioControllerRenderCallback)renderCallback
 {
 	return &renderCallback;
@@ -70,16 +92,18 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 {
 	@synchronized(self)
 	{
-		if (frequencyPosition < 0)
-		{
-			frequencyPosition = 0;
-		}
-		else if (frequencyPosition > 1)
-		{
-			frequencyPosition = 1;
-		}
+		_frequencyPosition = clamp(frequencyPosition, 0, 1);
+	}
+}
+
+- (void)setVolume:(float)volume
+{
+	@synchronized(self)
+	{
+		volume = clamp(volume, 0, 1);
 		
-		_frequencyPosition = frequencyPosition;
+		// the real volume is 0.1 .. 1. if you want silence, remove the dang channel
+		_volume = 0.1f + (0.9f * volume);
 	}
 }
 
@@ -93,6 +117,7 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 		self->invertedSampleRate = 1.0f / aSampleRate;
 		self->angle = 0;
 		self->_frequencyPosition = 0.5f;
+		self->_volume = 0.5;
 	}
 	
 	return self;

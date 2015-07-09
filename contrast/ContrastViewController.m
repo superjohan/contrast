@@ -102,7 +102,7 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 
 - (void)channelView:(ContrastChannelView *)channelView updatedWithPosition:(CGPoint)position scale:(CGFloat)scale rotation:(CGFloat)rotation
 {
-	[self.channelController updateChannelWithView:channelView frequencyPosition:[self _frequencyPositionFromPoint:position]];
+	[self.channelController updateChannelWithView:channelView frequencyPosition:[self _frequencyPositionFromPoint:position] volume:(scale - 0.5f)];
 }
 
 #pragma mark - UIViewController

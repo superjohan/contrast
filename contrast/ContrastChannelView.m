@@ -10,7 +10,7 @@
 
 static const CGFloat ContrastChannelViewInitialSize = 150;
 static const CGFloat ContrastChannelViewMinimumScale = 0.5;
-static const CGFloat ContrastChannelViewMaximumScale = 2.0;
+static const CGFloat ContrastChannelViewMaximumScale = 1.5;
 
 @interface ContrastChannelView () <UIGestureRecognizerDelegate>
 

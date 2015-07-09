@@ -51,6 +51,7 @@ static const NSInteger ContrastChannelAmount = 8;
 
 - (void)updateChannelWithView:(ContrastChannelView *)channelView
 			frequencyPosition:(float)frequencyPosition
+					   volume:(float)volume
 {
 	ContrastChannel *channel = nil;
 	
@@ -65,6 +66,7 @@ static const NSInteger ContrastChannelAmount = 8;
 	}
 	
 	channel.frequencyPosition = frequencyPosition;
+	channel.volume = volume;
 }
 
 - (instancetype)init
