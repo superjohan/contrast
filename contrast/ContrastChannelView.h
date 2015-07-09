@@ -8,8 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ContrastChannelViewDelegate;
+
 @interface ContrastChannelView : UIView
 
-- (instancetype)initWithCenter:(CGPoint)center;
+- (instancetype)initWithCenter:(CGPoint)center delegate:(id<ContrastChannelViewDelegate>)delegate;
+
+@end
+
+@protocol ContrastChannelViewDelegate <NSObject>
+
+@required
+- (void)channelView:(ContrastChannelView *)channelView updatedWithPosition:(CGPoint)position scale:(CGFloat)scale rotation:(CGFloat)rotation;
 
 @end

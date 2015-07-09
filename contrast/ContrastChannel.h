@@ -10,9 +10,12 @@
 
 #import <TheAmazingAudioEngine/TheAmazingAudioEngine.h>
 
+@class ContrastChannelView;
+
 @interface ContrastChannel : NSObject <AEAudioPlayable>
 
 @property (nonatomic) float frequencyPosition; // 0..1
+@property (nonatomic) ContrastChannelView *view;
 
 - (instancetype)initWithSampleRate:(float)sampleRate;
 

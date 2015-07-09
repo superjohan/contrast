@@ -33,14 +33,24 @@ static float getFrequencyFromPosition(float frequencyPosition)
 static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioController, const AudioTimeStamp *time, UInt32 frames, AudioBufferList *audio)
 {
 	float frequency = getFrequencyFromPosition(this->_frequencyPosition);
+	BOOL active = (this->_view != nil);
 	
 	for (NSInteger i = 0; i < frames; i++)
 	{
-		float angle = this->angle + (PI2 * frequency * this->invertedSampleRate);
-		angle = fmodf(angle, PI2);
-		this->angle = angle;
+		float sample;
 		
-		float sample = sin(angle);
+		if (active)
+		{
+			float angle = this->angle + (PI2 * frequency * this->invertedSampleRate);
+			angle = fmodf(angle, PI2);
+			this->angle = angle;
+			
+			sample = sin(angle);
+		}
+		else
+		{
+			sample = 0;
+		}
 		
 		((float *)audio->mBuffers[0].mData)[i] = sample;
 		((float *)audio->mBuffers[1].mData)[i] = sample;
@@ -60,6 +70,15 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 {
 	@synchronized(self)
 	{
+		if (frequencyPosition < 0)
+		{
+			frequencyPosition = 0;
+		}
+		else if (frequencyPosition > 1)
+		{
+			frequencyPosition = 1;
+		}
+		
 		_frequencyPosition = frequencyPosition;
 	}
 }

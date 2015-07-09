@@ -20,6 +20,53 @@ static const NSInteger ContrastChannelAmount = 8;
 
 @implementation ContrastChannelController
 
+#pragma mark - Public
+
+- (void)addView:(ContrastChannelView *)channelView frequencyPosition:(float)frequencyPosition
+{
+	for (ContrastChannel *channel in self.channels)
+	{
+		if (channel.view == nil)
+		{
+			channel.view = channelView;
+			channel.frequencyPosition = frequencyPosition;
+			
+			return;
+		}
+	}
+}
+
+- (void)removeView:(ContrastChannelView *)channelView
+{
+	for (ContrastChannel *channel in self.channels)
+	{
+		if (channel.view == channelView)
+		{
+			channel.view = nil;
+			
+			return;
+		}
+	}
+}
+
+- (void)updateChannelWithView:(ContrastChannelView *)channelView
+			frequencyPosition:(float)frequencyPosition
+{
+	ContrastChannel *channel = nil;
+	
+	for (ContrastChannel *chan in self.channels)
+	{
+		if (chan.view == channelView)
+		{
+			channel = chan;
+			
+			break;
+		}
+	}
+	
+	channel.frequencyPosition = frequencyPosition;
+}
+
 - (instancetype)init
 {
 	if ((self = [super init]))

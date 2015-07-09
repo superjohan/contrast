@@ -12,14 +12,19 @@
 
 static const NSInteger ContrastMaximumChannelCount = 8;
 
-@interface ContrastViewController ()
-@property (nonatomic) NSMutableArray<ContrastChannelView *> *channels;
+@interface ContrastViewController () <ContrastChannelViewDelegate>
+@property (nonatomic) NSMutableArray<ContrastChannelView *> *channels; // FIXME: maybe this isn't necessary
 @property (nonatomic) ContrastChannelController *channelController;
 @end
 
 @implementation ContrastViewController
 
 #pragma mark - Private
+
+- (float)_frequencyPositionFromPoint:(CGPoint)point
+{
+	return (1.0f - (point.y / self.view.bounds.size.height));
+}
 
 - (void)_addChannelAtPoint:(CGPoint)point
 {
@@ -30,11 +35,12 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 		return;
 	}
 	
-	ContrastChannelView *channelView = [[ContrastChannelView alloc] initWithCenter:point];
+	ContrastChannelView *channelView = [[ContrastChannelView alloc] initWithCenter:point delegate:self];
 	channelView.alpha = 0;
 	channelView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0, 0);
 	[self.view addSubview:channelView];
 	[self.channels addObject:channelView];
+	[self.channelController addView:channelView frequencyPosition:[self _frequencyPositionFromPoint:point]];
 	
 	[UIView animateWithDuration:UINavigationControllerHideShowBarDuration delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:0 animations:^{
 		channelView.alpha = 1;
@@ -49,6 +55,7 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 		channelView.transform = CGAffineTransformRotate(channelView.transform, M_PI_4);
 		channelView.transform = CGAffineTransformScale(channelView.transform, 0.1, 0.1);
 	} completion:^(BOOL finished) {
+		[self.channelController removeView:channelView];
 		[self.channels removeObject:channelView];
 		[channelView removeFromSuperview];
 	}];
@@ -89,6 +96,13 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 	}
 	
 	return currentView;
+}
+
+#pragma mark - ContrastChannelViewDelegate
+
+- (void)channelView:(ContrastChannelView *)channelView updatedWithPosition:(CGPoint)position scale:(CGFloat)scale rotation:(CGFloat)rotation
+{
+	[self.channelController updateChannelWithView:channelView frequencyPosition:[self _frequencyPositionFromPoint:position]];
 }
 
 #pragma mark - UIViewController

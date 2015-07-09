@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+@class ContrastChannelView;
+
 @interface ContrastChannelController : NSObject
+
+- (void)addView:(ContrastChannelView *)channelView frequencyPosition:(float)frequencyPosition;
+- (void)removeView:(ContrastChannelView *)channelView;
+
+- (void)updateChannelWithView:(ContrastChannelView *)channelView
+			frequencyPosition:(float)frequencyPosition;
 
 @end

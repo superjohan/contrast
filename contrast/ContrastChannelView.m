@@ -24,11 +24,18 @@ static const CGFloat ContrastChannelViewMaximumScale = 2.0;
 
 @property (nonatomic) UIView *innerView;
 
+@property (nonatomic, weak) id<ContrastChannelViewDelegate> delegate;
+
 @end
 
 @implementation ContrastChannelView
 
 #pragma mark - Private
+
+- (void)_notifyDelegateOfChanges
+{
+	[self.delegate channelView:self updatedWithPosition:self.center scale:self.currentScale rotation:self.currentRotation];
+}
 
 - (void)_panRecognized:(UIPanGestureRecognizer *)panRecognizer
 {
@@ -65,6 +72,8 @@ static const CGFloat ContrastChannelViewMaximumScale = 2.0;
 	{
 		self.startCenter = self.center;
 	}
+	
+	[self _notifyDelegateOfChanges];
 }
 
 - (void)_pinchRecognized:(UIPinchGestureRecognizer *)pinchRecognizer
@@ -93,6 +102,8 @@ static const CGFloat ContrastChannelViewMaximumScale = 2.0;
 	{
 		self.startScale = adjustedScale;
 	}
+
+	[self _notifyDelegateOfChanges];
 }
 
 - (void)_rotationRecognized:(UIRotationGestureRecognizer *)rotationRecognizer
@@ -107,6 +118,8 @@ static const CGFloat ContrastChannelViewMaximumScale = 2.0;
 	{
 		self.startRotation = self.currentRotation;
 	}
+
+	[self _notifyDelegateOfChanges];
 }
 
 - (void)_applyAffineTransformWithScale:(CGFloat)scale rotation:(CGFloat)rotation
@@ -124,7 +137,7 @@ static const CGFloat ContrastChannelViewMaximumScale = 2.0;
 
 #pragma mark - Public
 
-- (instancetype)initWithCenter:(CGPoint)center
+- (instancetype)initWithCenter:(CGPoint)center delegate:(id<ContrastChannelViewDelegate>)delegate;
 {
 	CGRect frame = CGRectMake(center.x - (ContrastChannelViewInitialSize / 2.0),
 							  center.y - (ContrastChannelViewInitialSize / 2.0),
@@ -134,6 +147,7 @@ static const CGFloat ContrastChannelViewMaximumScale = 2.0;
 	if ((self = [super initWithFrame:frame]))
 	{
 		_startCenter = center;
+		_delegate = delegate;
 		
 		_startScale = 1.0;
 		_currentScale = 1.0;
