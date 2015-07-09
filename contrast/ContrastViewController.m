@@ -53,12 +53,13 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 
 - (void)_removeChannel:(ContrastChannelView *)channelView
 {
+	[self.channelController removeView:channelView];
+
 	[UIView animateWithDuration:(UINavigationControllerHideShowBarDuration * 2.0) delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:0 animations:^{
 		channelView.alpha = 0;
 		channelView.transform = CGAffineTransformRotate(channelView.transform, M_PI_4);
 		channelView.transform = CGAffineTransformScale(channelView.transform, 0.1, 0.1);
 	} completion:^(BOOL finished) {
-		[self.channelController removeView:channelView];
 		[self.channels removeObject:channelView];
 		[channelView removeFromSuperview];
 	}];
