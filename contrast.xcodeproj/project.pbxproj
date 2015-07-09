@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		047838462259295E30445C00 /* Pods_contrast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CF09DF439B55DE8AAEBFB1F /* Pods_contrast.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		4EFC5D7AA4EC4DAE747DBA05 /* libPods-contrast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BBA6FD23091CEFB08F50830 /* libPods-contrast.a */; };
 		9002993B1B4A8D770093DCE7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9002993A1B4A8D770093DCE7 /* main.m */; };
 		9002993E1B4A8D770093DCE7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9002993D1B4A8D770093DCE7 /* AppDelegate.m */; };
 		900299411B4A8D770093DCE7 /* ContrastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900299401B4A8D770093DCE7 /* ContrastViewController.m */; };
@@ -20,7 +20,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6CF09DF439B55DE8AAEBFB1F /* Pods_contrast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_contrast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		900299361B4A8D770093DCE7 /* contrast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = contrast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9002993A1B4A8D770093DCE7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9002993C1B4A8D770093DCE7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -37,6 +36,7 @@
 		907BFB461B4EB17300227D7F /* ContrastChannelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContrastChannelController.m; sourceTree = "<group>"; };
 		907BFB481B4EB30100227D7F /* ContrastChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContrastChannel.h; sourceTree = "<group>"; };
 		907BFB491B4EB30100227D7F /* ContrastChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContrastChannel.m; sourceTree = "<group>"; };
+		9BBA6FD23091CEFB08F50830 /* libPods-contrast.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-contrast.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9E248AAAD369F08F65DE5ED /* Pods-contrast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-contrast.release.xcconfig"; path = "Pods/Target Support Files/Pods-contrast/Pods-contrast.release.xcconfig"; sourceTree = "<group>"; };
 		D935FF7E6CBF355ED909017D /* Pods-contrast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-contrast.debug.xcconfig"; path = "Pods/Target Support Files/Pods-contrast/Pods-contrast.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -46,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				047838462259295E30445C00 /* Pods_contrast.framework in Frameworks */,
+				4EFC5D7AA4EC4DAE747DBA05 /* libPods-contrast.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,7 +65,7 @@
 		3B7B6DAA095BC0226B953DE7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6CF09DF439B55DE8AAEBFB1F /* Pods_contrast.framework */,
+				9BBA6FD23091CEFB08F50830 /* libPods-contrast.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -129,7 +129,6 @@
 				900299321B4A8D770093DCE7 /* Sources */,
 				900299331B4A8D770093DCE7 /* Frameworks */,
 				900299341B4A8D770093DCE7 /* Resources */,
-				F17D7FC6892ABDCDB9062C0F /* Embed Pods Frameworks */,
 				C1043019477FBDB1B24CC581 /* Copy Pods Resources */,
 			);
 			buildRules = (
@@ -215,21 +214,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-contrast/Pods-contrast-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F17D7FC6892ABDCDB9062C0F /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-contrast/Pods-contrast-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
