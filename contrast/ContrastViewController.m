@@ -23,7 +23,10 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 
 - (float)_frequencyPositionFromPoint:(CGPoint)point
 {
-	return (1.0f - (point.y / self.view.bounds.size.height));
+	CGFloat heightRatio = point.y / self.view.bounds.size.height;
+	CGFloat widthModifier = ((point.x / self.view.bounds.size.width) / 10.0) - 0.05;
+	
+	return (1.0f - heightRatio) + widthModifier;
 }
 
 - (void)_addChannelAtPoint:(CGPoint)point
