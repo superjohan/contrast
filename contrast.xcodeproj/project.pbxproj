@@ -15,6 +15,8 @@
 		900299461B4A8D770093DCE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 900299451B4A8D770093DCE7 /* Assets.xcassets */; };
 		900299491B4A8D770093DCE7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 900299471B4A8D770093DCE7 /* LaunchScreen.storyboard */; };
 		900299521B4A8DED0093DCE7 /* ContrastChannelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 900299511B4A8DED0093DCE7 /* ContrastChannelView.m */; };
+		907BFB471B4EB17300227D7F /* ContrastChannelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907BFB461B4EB17300227D7F /* ContrastChannelController.m */; };
+		907BFB4A1B4EB30100227D7F /* ContrastChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 907BFB491B4EB30100227D7F /* ContrastChannel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,10 @@
 		9002994A1B4A8D770093DCE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		900299501B4A8DED0093DCE7 /* ContrastChannelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContrastChannelView.h; sourceTree = "<group>"; };
 		900299511B4A8DED0093DCE7 /* ContrastChannelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContrastChannelView.m; sourceTree = "<group>"; };
+		907BFB451B4EB17300227D7F /* ContrastChannelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContrastChannelController.h; sourceTree = "<group>"; };
+		907BFB461B4EB17300227D7F /* ContrastChannelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContrastChannelController.m; sourceTree = "<group>"; };
+		907BFB481B4EB30100227D7F /* ContrastChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContrastChannel.h; sourceTree = "<group>"; };
+		907BFB491B4EB30100227D7F /* ContrastChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContrastChannel.m; sourceTree = "<group>"; };
 		B9E248AAAD369F08F65DE5ED /* Pods-contrast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-contrast.release.xcconfig"; path = "Pods/Target Support Files/Pods-contrast/Pods-contrast.release.xcconfig"; sourceTree = "<group>"; };
 		D935FF7E6CBF355ED909017D /* Pods-contrast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-contrast.debug.xcconfig"; path = "Pods/Target Support Files/Pods-contrast/Pods-contrast.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,6 +102,10 @@
 				900299471B4A8D770093DCE7 /* LaunchScreen.storyboard */,
 				9002994A1B4A8D770093DCE7 /* Info.plist */,
 				900299391B4A8D770093DCE7 /* Supporting Files */,
+				907BFB451B4EB17300227D7F /* ContrastChannelController.h */,
+				907BFB461B4EB17300227D7F /* ContrastChannelController.m */,
+				907BFB481B4EB30100227D7F /* ContrastChannel.h */,
+				907BFB491B4EB30100227D7F /* ContrastChannel.m */,
 			);
 			path = contrast;
 			sourceTree = "<group>";
@@ -229,8 +239,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				907BFB471B4EB17300227D7F /* ContrastChannelController.m in Sources */,
 				900299411B4A8D770093DCE7 /* ContrastViewController.m in Sources */,
 				9002993E1B4A8D770093DCE7 /* AppDelegate.m in Sources */,
+				907BFB4A1B4EB30100227D7F /* ContrastChannel.m in Sources */,
 				900299521B4A8DED0093DCE7 /* ContrastChannelView.m in Sources */,
 				9002993B1B4A8D770093DCE7 /* main.m in Sources */,
 			);

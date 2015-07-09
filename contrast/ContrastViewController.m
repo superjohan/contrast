@@ -8,11 +8,13 @@
 
 #import "ContrastViewController.h"
 #import "ContrastChannelView.h"
+#import "ContrastChannelController.h"
 
 static const NSInteger ContrastMaximumChannelCount = 8;
 
 @interface ContrastViewController ()
 @property (nonatomic) NSMutableArray<ContrastChannelView *> *channels;
+@property (nonatomic) ContrastChannelController *channelController;
 @end
 
 @implementation ContrastViewController
@@ -96,6 +98,7 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 	[super viewDidLoad];
 	
 	self.channels = [[NSMutableArray alloc] init];
+	self.channelController = [[ContrastChannelController alloc] init];
 	
 	UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_doubleTapRecognized:)];
 	doubleTapRecognizer.numberOfTapsRequired = 2;
