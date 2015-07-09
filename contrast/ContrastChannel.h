@@ -12,6 +12,8 @@
 
 @interface ContrastChannel : NSObject <AEAudioPlayable>
 
+@property (nonatomic) float frequencyPosition; // 0..1
+
 - (instancetype)initWithSampleRate:(float)sampleRate;
 
 @end

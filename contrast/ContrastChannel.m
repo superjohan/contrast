@@ -8,19 +8,39 @@
 
 #import "ContrastChannel.h"
 
-@interface ContrastChannel () 
-@property (nonatomic) float sampleRate;
+#define PI2 6.28318530717f // pi * 2
+
+static const float ContrastChannelFrequencyMinimum = 100.0f;
+static const float ContrastChannelFrequencyMaximum = 2000.0f;
+
+@interface ContrastChannel ()
 @end
 
 @implementation ContrastChannel
+{
+	float sampleRate;
+	float invertedSampleRate;
+	float angle;
+}
 
 #pragma mark - AEAudioPlayable
 
+static float getFrequencyFromPosition(float frequencyPosition)
+{
+	return ContrastChannelFrequencyMinimum + ((ContrastChannelFrequencyMaximum - ContrastChannelFrequencyMinimum) * frequencyPosition);
+}
+
 static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioController, const AudioTimeStamp *time, UInt32 frames, AudioBufferList *audio)
 {
+	float frequency = getFrequencyFromPosition(this->_frequencyPosition);
+	
 	for (NSInteger i = 0; i < frames; i++)
 	{
-		float sample = arc4random_uniform(100) / 1000.0;
+		float angle = this->angle + (PI2 * frequency * this->invertedSampleRate);
+		angle = fmodf(angle, PI2);
+		this->angle = angle;
+		
+		float sample = sin(angle);
 		
 		((float *)audio->mBuffers[0].mData)[i] = sample;
 		((float *)audio->mBuffers[1].mData)[i] = sample;
@@ -34,13 +54,26 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 	return &renderCallback;
 }
 
+#pragma mark - Properties
+
+- (void)setFrequencyPosition:(float)frequencyPosition
+{
+	@synchronized(self)
+	{
+		_frequencyPosition = frequencyPosition;
+	}
+}
+
 #pragma mark - Public
 
-- (instancetype)initWithSampleRate:(float)sampleRate
+- (instancetype)initWithSampleRate:(float)aSampleRate
 {
 	if ((self = [super init]))
 	{
-		_sampleRate = sampleRate;
+		self->sampleRate = aSampleRate;
+		self->invertedSampleRate = 1.0f / aSampleRate;
+		self->angle = 0;
+		self->_frequencyPosition = 0.5f;
 	}
 	
 	return self;
