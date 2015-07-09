@@ -21,6 +21,8 @@ static const float ContrastChannelFrequencyMaximum = 2000.0f;
 	float sampleRate;
 	float invertedSampleRate;
 	float angle;
+	float previousActive;
+	float previousVolume;
 }
 
 #pragma mark - AEAudioPlayable
@@ -37,17 +39,42 @@ static float calculateVolume(float volume)
 
 static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioController, const AudioTimeStamp *time, UInt32 frames, AudioBufferList *audio)
 {
-	// TODO: Keep volume and active states in an ivar so that we can interpolate between changes.
-	
 	float frequency = getFrequencyFromPosition(this->_frequencyPosition);
 	BOOL active = (this->_view != nil);
-	float volume = calculateVolume(this->_volume);
+	BOOL shouldFadeOut = (active == NO && this->previousActive == YES);
+	float startVolume = calculateVolume(this->_volume);
+	float volume = startVolume;
+	BOOL volumeChanged = (volume != this->previousVolume);
+	float previousVolume = this->previousVolume;
+	BOOL interpolating = shouldFadeOut || volumeChanged;
+
+	// might want to interpolate between frequencies too, but I don't feel that's too important
 	
+	NSInteger interpolationMax = frames / 2;
+
 	for (NSInteger i = 0; i < frames; i++)
 	{
+		if (i < interpolationMax)
+		{
+			float interpolationPosition = (float)i / (float)interpolationMax;
+			
+			if (shouldFadeOut)
+			{
+				volume = (startVolume * (1.0f - interpolationPosition));
+			}
+			else if (volumeChanged)
+			{
+				volume = previousVolume + ((startVolume - previousVolume) * interpolationPosition);
+			}
+		}
+		else
+		{
+			interpolating = NO;
+		}
+		
 		float sample;
 		
-		if (active)
+		if (active || interpolating)
 		{
 			float angle = this->angle + (PI2 * frequency * this->invertedSampleRate);
 			angle = fmodf(angle, PI2);
@@ -63,6 +90,9 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 		((float *)audio->mBuffers[0].mData)[i] = sample;
 		((float *)audio->mBuffers[1].mData)[i] = sample;
 	}
+	
+	this->previousActive = active;
+	this->previousVolume = startVolume;
 	
 	return noErr;
 }
