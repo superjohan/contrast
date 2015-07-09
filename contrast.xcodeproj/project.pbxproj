@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		047838462259295E30445C00 /* Pods_contrast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CF09DF439B55DE8AAEBFB1F /* Pods_contrast.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		9002993B1B4A8D770093DCE7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9002993A1B4A8D770093DCE7 /* main.m */; };
 		9002993E1B4A8D770093DCE7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9002993D1B4A8D770093DCE7 /* AppDelegate.m */; };
 		900299411B4A8D770093DCE7 /* ContrastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900299401B4A8D770093DCE7 /* ContrastViewController.m */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6CF09DF439B55DE8AAEBFB1F /* Pods_contrast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_contrast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		900299361B4A8D770093DCE7 /* contrast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = contrast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9002993A1B4A8D770093DCE7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9002993C1B4A8D770093DCE7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -29,6 +31,8 @@
 		9002994A1B4A8D770093DCE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		900299501B4A8DED0093DCE7 /* ContrastChannelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContrastChannelView.h; sourceTree = "<group>"; };
 		900299511B4A8DED0093DCE7 /* ContrastChannelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContrastChannelView.m; sourceTree = "<group>"; };
+		B9E248AAAD369F08F65DE5ED /* Pods-contrast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-contrast.release.xcconfig"; path = "Pods/Target Support Files/Pods-contrast/Pods-contrast.release.xcconfig"; sourceTree = "<group>"; };
+		D935FF7E6CBF355ED909017D /* Pods-contrast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-contrast.debug.xcconfig"; path = "Pods/Target Support Files/Pods-contrast/Pods-contrast.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,17 +40,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				047838462259295E30445C00 /* Pods_contrast.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09D5273AAD346EE83BF28990 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D935FF7E6CBF355ED909017D /* Pods-contrast.debug.xcconfig */,
+				B9E248AAAD369F08F65DE5ED /* Pods-contrast.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		3B7B6DAA095BC0226B953DE7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6CF09DF439B55DE8AAEBFB1F /* Pods_contrast.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9002992D1B4A8D770093DCE7 = {
 			isa = PBXGroup;
 			children = (
 				900299381B4A8D770093DCE7 /* contrast */,
 				900299371B4A8D770093DCE7 /* Products */,
+				09D5273AAD346EE83BF28990 /* Pods */,
+				3B7B6DAA095BC0226B953DE7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,9 +115,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9002994D1B4A8D770093DCE7 /* Build configuration list for PBXNativeTarget "contrast" */;
 			buildPhases = (
+				6C00BF444C64C8A8A9749CC3 /* Check Pods Manifest.lock */,
 				900299321B4A8D770093DCE7 /* Sources */,
 				900299331B4A8D770093DCE7 /* Frameworks */,
 				900299341B4A8D770093DCE7 /* Resources */,
+				F17D7FC6892ABDCDB9062C0F /* Embed Pods Frameworks */,
+				C1043019477FBDB1B24CC581 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -148,6 +175,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6C00BF444C64C8A8A9749CC3 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C1043019477FBDB1B24CC581 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-contrast/Pods-contrast-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F17D7FC6892ABDCDB9062C0F /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-contrast/Pods-contrast-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		900299321B4A8D770093DCE7 /* Sources */ = {
@@ -265,6 +340,7 @@
 		};
 		9002994E1B4A8D770093DCE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D935FF7E6CBF355ED909017D /* Pods-contrast.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = contrast/Info.plist;
@@ -277,6 +353,7 @@
 		};
 		9002994F1B4A8D770093DCE7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B9E248AAAD369F08F65DE5ED /* Pods-contrast.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = contrast/Info.plist;
@@ -306,6 +383,7 @@
 				9002994F1B4A8D770093DCE7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
