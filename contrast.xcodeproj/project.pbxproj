@@ -97,15 +97,15 @@
 				900299401B4A8D770093DCE7 /* ContrastViewController.m */,
 				900299501B4A8DED0093DCE7 /* ContrastChannelView.h */,
 				900299511B4A8DED0093DCE7 /* ContrastChannelView.m */,
+				907BFB451B4EB17300227D7F /* ContrastChannelController.h */,
+				907BFB461B4EB17300227D7F /* ContrastChannelController.m */,
+				907BFB481B4EB30100227D7F /* ContrastChannel.h */,
+				907BFB491B4EB30100227D7F /* ContrastChannel.m */,
 				900299421B4A8D770093DCE7 /* Main.storyboard */,
 				900299451B4A8D770093DCE7 /* Assets.xcassets */,
 				900299471B4A8D770093DCE7 /* LaunchScreen.storyboard */,
 				9002994A1B4A8D770093DCE7 /* Info.plist */,
 				900299391B4A8D770093DCE7 /* Supporting Files */,
-				907BFB451B4EB17300227D7F /* ContrastChannelController.h */,
-				907BFB461B4EB17300227D7F /* ContrastChannelController.m */,
-				907BFB481B4EB30100227D7F /* ContrastChannel.h */,
-				907BFB491B4EB30100227D7F /* ContrastChannel.m */,
 			);
 			path = contrast;
 			sourceTree = "<group>";
