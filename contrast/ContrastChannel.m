@@ -29,7 +29,7 @@ static const float ContrastChannelFrequencyMaximum = 3000.0f;
 
 static float getFrequencyFromPosition(float frequencyPosition)
 {
-	return ContrastChannelFrequencyMinimum + ((ContrastChannelFrequencyMaximum - ContrastChannelFrequencyMinimum) * frequencyPosition);
+	return ContrastChannelFrequencyMinimum + ((ContrastChannelFrequencyMaximum - ContrastChannelFrequencyMinimum) * convertToNonLinear(frequencyPosition));
 }
 
 static float convertToNonLinear(float value)
