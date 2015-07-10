@@ -108,7 +108,7 @@ static const CGFloat ContrastChannelViewMaximumScale = 1.5;
 
 - (void)_rotationRecognized:(UIRotationGestureRecognizer *)rotationRecognizer
 {
-	self.currentRotation = fmod(self.startRotation + rotationRecognizer.rotation, M_PI * 2.0);
+	self.currentRotation = self.startRotation + rotationRecognizer.rotation;
 	
 	[self _applyAffineTransformWithScale:self.currentScale rotation:self.currentRotation];
 
