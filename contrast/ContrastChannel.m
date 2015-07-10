@@ -44,8 +44,8 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 	BOOL shouldFadeOut = (active == NO && this->previousActive == YES);
 	float startVolume = calculateVolume(this->_volume);
 	float volume = startVolume;
-	BOOL volumeChanged = (volume != this->previousVolume);
 	float previousVolume = this->previousVolume;
+	BOOL volumeChanged = (volume != previousVolume);
 	BOOL interpolating = shouldFadeOut || volumeChanged;
 
 	// might want to interpolate between frequencies too, but I don't feel that's too important
