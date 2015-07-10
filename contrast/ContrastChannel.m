@@ -10,8 +10,8 @@
 
 #define PI2 6.28318530717f // pi * 2
 
-static const float ContrastChannelFrequencyMinimum = 100.0f;
-static const float ContrastChannelFrequencyMaximum = 2000.0f;
+static const float ContrastChannelFrequencyMinimum = 40.0f;
+static const float ContrastChannelFrequencyMaximum = 3000.0f;
 
 @interface ContrastChannel ()
 @end
