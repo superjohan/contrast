@@ -122,6 +122,16 @@ static const CGFloat ContrastChannelViewMaximumScale = 1.5;
 	[self _notifyDelegateOfChanges];
 }
 
+- (void)_tapRecognized:(UITapGestureRecognizer *)tapRecognizer
+{
+	[self.delegate channelViewReceivedTap:self];
+}
+
+- (void)_doubleTapRecognized:(UITapGestureRecognizer *)tapRecognizer
+{
+	[self.delegate channelViewReceivedDoubleTap:self];
+}
+
 - (void)_applyAffineTransformWithScale:(CGFloat)scale rotation:(CGFloat)rotation
 {
 	// The border should always be ~two points, so we scale the inner view dynamically as well.
@@ -133,6 +143,22 @@ static const CGFloat ContrastChannelViewMaximumScale = 1.5;
 	CGAffineTransform rotationTransform = CGAffineTransformRotate(CGAffineTransformIdentity, rotation);
 	CGAffineTransform scaleTransform = CGAffineTransformScale(rotationTransform, scale, scale);
 	self.transform = scaleTransform;
+}
+
+#pragma mark - Properties
+
+- (void)setSilent:(BOOL)silent
+{
+	_silent = silent;
+	
+	if (silent)
+	{
+		self.innerView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1.0];
+	}
+	else
+	{
+		self.innerView.backgroundColor = [UIColor colorWithWhite:0 alpha:1.0];
+	}
 }
 
 #pragma mark - Public
@@ -174,6 +200,17 @@ static const CGFloat ContrastChannelViewMaximumScale = 1.5;
 		UIRotationGestureRecognizer *rotationRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(_rotationRecognized:)];
 		rotationRecognizer.delegate = self;
 		[self addGestureRecognizer:rotationRecognizer];
+		
+		UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_doubleTapRecognized:)];
+		doubleTapRecognizer.delegate = self;
+		doubleTapRecognizer.numberOfTapsRequired = 2;
+		[self addGestureRecognizer:doubleTapRecognizer];
+
+		UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_tapRecognized:)];
+		singleTapRecognizer.delegate = self;
+		singleTapRecognizer.numberOfTapsRequired = 1;
+		[singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
+		[self addGestureRecognizer:singleTapRecognizer];
 	}
 	
 	return self;

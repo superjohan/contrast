@@ -28,6 +28,8 @@ static const NSInteger ContrastChannelAmount = 8;
 	{
 		if (channel.view == nil)
 		{
+			[channel resetToDefaults];
+			
 			channel.view = channelView;
 			
 			return;
@@ -42,6 +44,19 @@ static const NSInteger ContrastChannelAmount = 8;
 		if (channel.view == channelView)
 		{
 			channel.view = nil;
+			
+			return;
+		}
+	}
+}
+
+- (void)viewWasTouched:(ContrastChannelView *)channelView
+{
+	for (ContrastChannel *channel in self.channels)
+	{
+		if (channel.view == channelView)
+		{
+			[channel incrementPhase];
 			
 			return;
 		}

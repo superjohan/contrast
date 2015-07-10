@@ -22,5 +22,7 @@
 @property (nonatomic) ContrastChannelView *view;
 
 - (instancetype)initWithSampleRate:(float)sampleRate reverbEffect:(AEAudioUnitFilter *)reverbEffect;
+- (void)incrementPhase;
+- (void)resetToDefaults;
 
 @end

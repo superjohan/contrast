@@ -14,6 +14,7 @@
 
 - (void)addView:(ContrastChannelView *)channelView;
 - (void)removeView:(ContrastChannelView *)channelView;
+- (void)viewWasTouched:(ContrastChannelView *)channelView;
 
 - (void)updateChannelWithView:(ContrastChannelView *)channelView
 			frequencyPosition:(float)frequencyPosition

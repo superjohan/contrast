@@ -97,32 +97,6 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 	{
 		[self _addChannelAtPoint:location];
 	}
-	else
-	{
-		UIView *baseView = [self _baseViewFromView:view];
-		
-		if ([baseView isKindOfClass:[ContrastChannelView class]])
-		{
-			[self _removeChannel:(ContrastChannelView *)baseView];
-		}
-	}
-}
-
-- (UIView *)_baseViewFromView:(UIView *)view
-{
-	if (view == self.view)
-	{
-		return nil;
-	}
-	
-	UIView *currentView = view;
-	
-	while (currentView.superview != self.view)
-	{
-		currentView = currentView.superview;
-	}
-	
-	return currentView;
 }
 
 - (float)_effectAmountFromRotation:(CGFloat)rotation
@@ -153,6 +127,16 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 										   volume:(scale - 0.5f)
 									 effectAmount:[self _effectAmountFromRotation:rotation]
 									  noiseAmount:[self _noiseAmountFromPoint:position]];
+}
+
+- (void)channelViewReceivedTap:(ContrastChannelView *)channelView
+{
+	[self.channelController viewWasTouched:channelView];
+}
+
+- (void)channelViewReceivedDoubleTap:(ContrastChannelView *)channelView
+{
+	[self _removeChannel:channelView];
 }
 
 #pragma mark - UIViewController

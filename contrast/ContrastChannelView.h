@@ -12,6 +12,8 @@
 
 @interface ContrastChannelView : UIView
 
+@property (nonatomic) BOOL silent;
+
 - (instancetype)initWithCenter:(CGPoint)center delegate:(id<ContrastChannelViewDelegate>)delegate;
 
 @end
@@ -20,5 +22,7 @@
 
 @required
 - (void)channelView:(ContrastChannelView *)channelView updatedWithPosition:(CGPoint)position scale:(CGFloat)scale rotation:(CGFloat)rotation;
+- (void)channelViewReceivedTap:(ContrastChannelView *)channelView;
+- (void)channelViewReceivedDoubleTap:(ContrastChannelView *)channelView;
 
 @end
