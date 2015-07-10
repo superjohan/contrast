@@ -29,6 +29,24 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 	return (1.0f - heightRatio) + widthModifier;
 }
 
+- (float)_noiseAmountFromPoint:(CGPoint)point
+{
+	CGFloat width = self.view.bounds.size.width;
+	CGFloat minThreshold = width * 0.1;
+	CGFloat maxThreshold = width - minThreshold;
+	
+	if (point.x < minThreshold)
+	{
+		return 1.0f - (float)(point.x / minThreshold);
+	}
+	else if (point.x > maxThreshold)
+	{
+		return 1.0f - (float)((width - point.x) / minThreshold);
+	}
+	
+	return 0;
+}
+
 - (void)_addChannelAtPoint:(CGPoint)point
 {
 	if (self.channels.count >= ContrastMaximumChannelCount)
@@ -44,7 +62,11 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 	[self.view addSubview:channelView];
 	[self.channels addObject:channelView];
 	[self.channelController addView:channelView];
-	[self.channelController updateChannelWithView:channelView frequencyPosition:[self _frequencyPositionFromPoint:point] volume:0.5f effectAmount:0];
+	[self.channelController updateChannelWithView:channelView
+								frequencyPosition:[self _frequencyPositionFromPoint:point]
+										   volume:0.5f
+									 effectAmount:0
+									  noiseAmount:[self _noiseAmountFromPoint:point]];
 	
 	[UIView animateWithDuration:UINavigationControllerHideShowBarDuration delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:0 animations:^{
 		channelView.alpha = 1;
@@ -129,7 +151,8 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 	[self.channelController updateChannelWithView:channelView
 								frequencyPosition:[self _frequencyPositionFromPoint:position]
 										   volume:(scale - 0.5f)
-									 effectAmount:[self _effectAmountFromRotation:rotation]];
+									 effectAmount:[self _effectAmountFromRotation:rotation]
+									  noiseAmount:[self _noiseAmountFromPoint:position]];
 }
 
 #pragma mark - UIViewController

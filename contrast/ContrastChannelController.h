@@ -18,6 +18,7 @@
 - (void)updateChannelWithView:(ContrastChannelView *)channelView
 			frequencyPosition:(float)frequencyPosition
 					   volume:(float)volume
-				 effectAmount:(float)effectAmount;
+				 effectAmount:(float)effectAmount
+				  noiseAmount:(float)noiseAmount;
 
 @end
