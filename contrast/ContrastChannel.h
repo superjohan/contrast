@@ -14,10 +14,12 @@
 
 @interface ContrastChannel : NSObject <AEAudioPlayable>
 
+@property (nonatomic, readonly) AEAudioUnitFilter *reverbEffect;
 @property (nonatomic) float frequencyPosition; // 0..1
 @property (nonatomic) float volume; // 0..1
+@property (nonatomic) float reverbAmount; // 0..1
 @property (nonatomic) ContrastChannelView *view;
 
-- (instancetype)initWithSampleRate:(float)sampleRate;
+- (instancetype)initWithSampleRate:(float)sampleRate reverbEffect:(AEAudioUnitFilter *)reverbEffect;
 
 @end

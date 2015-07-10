@@ -12,11 +12,12 @@
 
 @interface ContrastChannelController : NSObject
 
-- (void)addView:(ContrastChannelView *)channelView frequencyPosition:(float)frequencyPosition;
+- (void)addView:(ContrastChannelView *)channelView;
 - (void)removeView:(ContrastChannelView *)channelView;
 
 - (void)updateChannelWithView:(ContrastChannelView *)channelView
 			frequencyPosition:(float)frequencyPosition
-					   volume:(float)volume;
+					   volume:(float)volume
+				 effectAmount:(float)effectAmount;
 
 @end

@@ -14,6 +14,7 @@ static const float ContrastChannelFrequencyMinimum = 40.0f;
 static const float ContrastChannelFrequencyMaximum = 3000.0f;
 
 @interface ContrastChannel ()
+@property (nonatomic) AEAudioUnitFilter *reverbEffect;
 @end
 
 @implementation ContrastChannel
@@ -118,6 +119,11 @@ static float clamp(float value, float min, float max)
 
 #pragma mark - Properties
 
+- (AEAudioUnitFilter *)reverbEffect
+{
+	return _reverbEffect;
+}
+
 - (void)setFrequencyPosition:(float)frequencyPosition
 {
 	@synchronized(self)
@@ -137,9 +143,26 @@ static float clamp(float value, float min, float max)
 	}
 }
 
+- (void)setReverbAmount:(float)reverbAmount
+{
+	@synchronized(self)
+	{
+		_reverbAmount = reverbAmount;
+
+		NSInteger amount = self.reverbAmount * 100;
+
+		if (amount > 100)
+		{
+			amount = 0;
+		}
+		
+		AudioUnitSetParameter(self.reverbEffect.audioUnit, kReverb2Param_DryWetMix, kAudioUnitScope_Global, 0, amount, 0);
+	}
+}
+
 #pragma mark - Public
 
-- (instancetype)initWithSampleRate:(float)aSampleRate
+- (instancetype)initWithSampleRate:(float)aSampleRate reverbEffect:(AEAudioUnitFilter *)reverbEffect
 {
 	if ((self = [super init]))
 	{
@@ -148,6 +171,12 @@ static float clamp(float value, float min, float max)
 		self->angle = 0;
 		self->_frequencyPosition = 0.5f;
 		self->_volume = 0.5;
+
+		AudioUnitSetParameter(reverbEffect.audioUnit, kReverb2Param_DryWetMix, kAudioUnitScope_Global, 0, 0, 0);
+		AudioUnitSetParameter(reverbEffect.audioUnit, kReverb2Param_DecayTimeAt0Hz, kAudioUnitScope_Global, 0, 3.0, 0);
+		AudioUnitSetParameter(reverbEffect.audioUnit, kReverb2Param_DecayTimeAtNyquist, kAudioUnitScope_Global, 0, 3.0, 0);
+		
+		_reverbEffect = reverbEffect;
 	}
 	
 	return self;

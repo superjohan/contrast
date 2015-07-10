@@ -43,7 +43,8 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 	channelView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0, 0);
 	[self.view addSubview:channelView];
 	[self.channels addObject:channelView];
-	[self.channelController addView:channelView frequencyPosition:[self _frequencyPositionFromPoint:point]];
+	[self.channelController addView:channelView];
+	[self.channelController updateChannelWithView:channelView frequencyPosition:[self _frequencyPositionFromPoint:point] volume:0.5f effectAmount:0];
 	
 	[UIView animateWithDuration:UINavigationControllerHideShowBarDuration delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:0 animations:^{
 		channelView.alpha = 1;
@@ -102,11 +103,33 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 	return currentView;
 }
 
+- (float)_effectAmountFromRotation:(CGFloat)rotation
+{
+	if (rotation >= 0)
+	{
+		float amount = (float)(rotation / (M_PI * 2.0));
+
+		if (amount > 1)
+		{
+			amount = 1;
+		}
+		
+		return amount;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
 #pragma mark - ContrastChannelViewDelegate
 
 - (void)channelView:(ContrastChannelView *)channelView updatedWithPosition:(CGPoint)position scale:(CGFloat)scale rotation:(CGFloat)rotation
 {
-	[self.channelController updateChannelWithView:channelView frequencyPosition:[self _frequencyPositionFromPoint:position] volume:(scale - 0.5f)];
+	[self.channelController updateChannelWithView:channelView
+								frequencyPosition:[self _frequencyPositionFromPoint:position]
+										   volume:(scale - 0.5f)
+									 effectAmount:[self _effectAmountFromRotation:rotation]];
 }
 
 #pragma mark - UIViewController

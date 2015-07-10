@@ -22,14 +22,13 @@ static const NSInteger ContrastChannelAmount = 8;
 
 #pragma mark - Public
 
-- (void)addView:(ContrastChannelView *)channelView frequencyPosition:(float)frequencyPosition
+- (void)addView:(ContrastChannelView *)channelView
 {
 	for (ContrastChannel *channel in self.channels)
 	{
 		if (channel.view == nil)
 		{
 			channel.view = channelView;
-			channel.frequencyPosition = frequencyPosition;
 			
 			return;
 		}
@@ -52,6 +51,7 @@ static const NSInteger ContrastChannelAmount = 8;
 - (void)updateChannelWithView:(ContrastChannelView *)channelView
 			frequencyPosition:(float)frequencyPosition
 					   volume:(float)volume
+				 effectAmount:(float)effectAmount
 {
 	ContrastChannel *channel = nil;
 	
@@ -67,6 +67,7 @@ static const NSInteger ContrastChannelAmount = 8;
 	
 	channel.frequencyPosition = frequencyPosition;
 	channel.volume = volume;
+	channel.reverbAmount = effectAmount;
 }
 
 - (instancetype)init
@@ -79,11 +80,27 @@ static const NSInteger ContrastChannelAmount = 8;
 		NSMutableArray *channels = [NSMutableArray array];
 		for (NSInteger i = 0; i < ContrastChannelAmount; i++)
 		{
-			ContrastChannel *channel = [[ContrastChannel alloc] initWithSampleRate:_audioController.audioDescription.mSampleRate];
+			AudioComponentDescription reverbComponent = AEAudioComponentDescriptionMake(kAudioUnitManufacturer_Apple, kAudioUnitType_Effect, kAudioUnitSubType_Reverb2);
+			NSError *reverbError = nil;
+			AEAudioUnitFilter *reverb = [[AEAudioUnitFilter alloc] initWithComponentDescription:reverbComponent audioController:self.audioController error:&reverbError];
+			if (reverb == nil)
+			{
+				NSLog(@"Error creating reverb: %@", reverbError);
+				
+				return nil;
+			}
+
+			ContrastChannel *channel = [[ContrastChannel alloc] initWithSampleRate:_audioController.audioDescription.mSampleRate reverbEffect:reverb];
+			
 			[channels addObject:channel];
 		}
 		
 		[_audioController addChannels:channels];
+
+		for (ContrastChannel *channel in channels)
+		{
+			[_audioController addFilter:channel.reverbEffect toChannel:channel];
+		}
 		
 		_channels = [NSArray arrayWithArray:channels];
 		
