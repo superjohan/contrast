@@ -32,9 +32,9 @@ static float getFrequencyFromPosition(float frequencyPosition)
 	return ContrastChannelFrequencyMinimum + ((ContrastChannelFrequencyMaximum - ContrastChannelFrequencyMinimum) * frequencyPosition);
 }
 
-static float calculateVolume(float volume)
+static float convertToNonLinear(float value)
 {
-	return (volume * volume); // *shrug* you're not my dad
+	return (value * value); // *shrug* you're not my dad
 }
 
 static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioController, const AudioTimeStamp *time, UInt32 frames, AudioBufferList *audio)
@@ -42,7 +42,7 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 	float frequency = getFrequencyFromPosition(this->_frequencyPosition);
 	BOOL active = (this->_view != nil);
 	BOOL shouldFadeOut = (active == NO && this->previousActive == YES);
-	float startVolume = calculateVolume(this->_volume);
+	float startVolume = convertToNonLinear(this->_volume);
 	float volume = startVolume;
 	float previousVolume = this->previousVolume;
 	BOOL volumeChanged = (volume != previousVolume);
