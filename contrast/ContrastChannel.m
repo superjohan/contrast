@@ -13,6 +13,7 @@
 
 static const float ContrastChannelFrequencyMinimum = 40.0f;
 static const float ContrastChannelFrequencyMaximum = 3000.0f;
+static const int ContrastMaxTickCount = 64;
 
 @interface ContrastChannel ()
 @property (nonatomic) AEAudioUnitFilter *reverbEffect;
@@ -25,6 +26,9 @@ static const float ContrastChannelFrequencyMaximum = 3000.0f;
 	float angle;
 	float previousActive;
 	float previousVolume;
+	int tickLength;
+	int tickCounter;
+	int tickCount;
 }
 
 #pragma mark - AEAudioPlayable
@@ -93,6 +97,21 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 
 		sample = clamp(sample, -1.0f, 1.0f);
 		
+		this->tickCounter++;
+		if (this->tickCounter > this->tickLength)
+		{
+			this->tickCounter = 0;
+			
+			if (active)
+			{
+				this->tickCount++;
+				if (this->tickCount >= ContrastMaxTickCount)
+				{
+					this->tickCount = 0;
+				}
+			}
+		}
+
 		((float *)audio->mBuffers[0].mData)[i] = sample;
 		((float *)audio->mBuffers[1].mData)[i] = sample;
 	}
@@ -182,6 +201,7 @@ static inline float clamp(float value, float min, float max)
 		self->previousActive = NO;
 		self->previousVolume = 0.25f; // ugh.. this has to be set so that a volume change isn't triggered on start, and this is obviously the converted volume value :/
 		self->_noiseAmount = 0;
+		self->tickLength = aSampleRate * 0.05f;
 		
 		AudioUnitSetParameter(reverbEffect.audioUnit, kReverb2Param_DryWetMix, kAudioUnitScope_Global, 0, 0, 0);
 		AudioUnitSetParameter(reverbEffect.audioUnit, kReverb2Param_DecayTimeAt0Hz, kAudioUnitScope_Global, 0, 3.0, 0);
