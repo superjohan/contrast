@@ -147,7 +147,7 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 				
 				float noise = convertToNonLinear(this->noiseTable[this->noiseCounter] * this->_noiseAmount);
 				this->noiseCounter++;
-				if (this->noiseCounter > ContrastNoiseTableSize)
+				if (this->noiseCounter >= ContrastNoiseTableSize)
 				{
 					this->noiseCounter = 0;
 				}
