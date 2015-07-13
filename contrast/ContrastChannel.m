@@ -17,6 +17,7 @@ static const float ContrastChannelFrequencyMaximum = 3000.0f;
 static const int ContrastMaxTickCount = 64;
 static const int ContrastPhaseCount = 5;
 static const int ContrastPhases[ContrastPhaseCount] = { 0, 16, 8, 4, 2 };
+static const int ContrastNoiseTableSize = 32768;
 
 @interface ContrastChannel ()
 @property (nonatomic) AEAudioUnitFilter *reverbEffect;
@@ -29,10 +30,12 @@ static const int ContrastPhases[ContrastPhaseCount] = { 0, 16, 8, 4, 2 };
 	float angle;
 	float previousActive;
 	float previousVolume;
+	float *noiseTable;
 	int tickLength;
 	int tickCounter;
 	int tickCount;
 	int phase;
+	int noiseCounter;
 	BOOL silent;
 }
 
@@ -137,9 +140,14 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 				angle = fmodf(angle, PI2);
 				this->angle = angle;
 				
-				float noise = ((float)(arc4random_uniform(131070) * I_64K) - 1.0f) * this->_noiseAmount;
+				float noise = convertToNonLinear(this->noiseTable[this->noiseCounter] * this->_noiseAmount);
+				this->noiseCounter++;
+				if (this->noiseCounter > ContrastNoiseTableSize)
+				{
+					this->noiseCounter = 0;
+				}
 				
-				sample = (sin(angle) + convertToNonLinear(noise)) * volume;
+				sample = clamp((sin(angle) + noise) * volume, -1, 1);
 			}
 			else
 			{
@@ -180,6 +188,18 @@ static inline float clamp(float value, float min, float max)
 - (AEAudioControllerRenderCallback)renderCallback
 {
 	return &renderCallback;
+}
+
+static float* generateNoiseTable(int size)
+{
+	float *noiseTable = malloc(sizeof(float) * size);
+	
+	for (int i = 0; i < size; i++)
+	{
+		noiseTable[i] = ((float)(arc4random_uniform(131070) * I_64K) - 1.0f);
+	}
+	
+	return noiseTable;
 }
 
 #pragma mark - Properties
@@ -244,6 +264,7 @@ static inline float clamp(float value, float min, float max)
 		self->_noiseAmount = 0;
 		self->tickLength = aSampleRate * 0.05f;
 		self->phase = 0;
+		self->noiseTable = generateNoiseTable(ContrastNoiseTableSize);
 		
 		AudioUnitSetParameter(reverbEffect.audioUnit, kReverb2Param_DryWetMix, kAudioUnitScope_Global, 0, 0, 0);
 		AudioUnitSetParameter(reverbEffect.audioUnit, kReverb2Param_DecayTimeAt0Hz, kAudioUnitScope_Global, 0, 3.0, 0);
@@ -271,6 +292,11 @@ static inline float clamp(float value, float min, float max)
 - (void)resetToDefaults
 {
 	self->phase = 0;
+}
+
+- (void)dealloc
+{
+	free(self->noiseTable);
 }
 
 @end
