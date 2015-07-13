@@ -10,6 +10,7 @@
 #import "ContrastChannelView.h"
 
 #define PI2   6.28318530717f // pi * 2
+#define PI2_I 0.15915494309f // 1 / (pi * 2)
 #define I_64K 0.000015259f // 1 / 65535
 
 static const float ContrastChannelFrequencyMinimum = 40.0f;
@@ -17,6 +18,7 @@ static const float ContrastChannelFrequencyMaximum = 3000.0f;
 static const int ContrastMaxTickCount = 64;
 static const int ContrastPhaseCount = 5;
 static const int ContrastPhases[ContrastPhaseCount] = { 0, 16, 8, 4, 2 };
+static const int ContrastSineTableSize = 16384;
 static const int ContrastNoiseTableSize = 32768;
 
 @interface ContrastChannel ()
@@ -30,6 +32,7 @@ static const int ContrastNoiseTableSize = 32768;
 	float angle;
 	float previousActive;
 	float previousVolume;
+	float *sineTable;
 	float *noiseTable;
 	int tickLength;
 	int tickCounter;
@@ -41,7 +44,7 @@ static const int ContrastNoiseTableSize = 32768;
 
 #pragma mark - AEAudioPlayable
 
-static float getFrequencyFromPosition(float frequencyPosition)
+static inline float getFrequencyFromPosition(float frequencyPosition)
 {
 	return ContrastChannelFrequencyMinimum + ((ContrastChannelFrequencyMaximum - ContrastChannelFrequencyMinimum) * convertToNonLinear(frequencyPosition));
 }
@@ -138,6 +141,8 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 			{
 				float angle = this->angle + (PI2 * frequency * this->invertedSampleRate);
 				angle = fmodf(angle, PI2);
+				int index = (int)(ContrastSineTableSize * (angle * PI2_I));
+				float sine = this->sineTable[index];
 				this->angle = angle;
 				
 				float noise = convertToNonLinear(this->noiseTable[this->noiseCounter] * this->_noiseAmount);
@@ -147,7 +152,7 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 					this->noiseCounter = 0;
 				}
 				
-				sample = clamp((sin(angle) + noise) * volume, -1, 1);
+				sample = (sine + noise) * volume;
 			}
 			else
 			{
@@ -188,6 +193,18 @@ static inline float clamp(float value, float min, float max)
 - (AEAudioControllerRenderCallback)renderCallback
 {
 	return &renderCallback;
+}
+
+static float* generateSineTable(int size)
+{
+	float *sineTable = malloc(sizeof(float) * size);
+	
+	for (int i = 0; i < size; i++)
+	{
+		sineTable[i] = sinf((i / (float)size) * PI2);
+	}
+	
+	return sineTable;
 }
 
 static float* generateNoiseTable(int size)
@@ -264,6 +281,7 @@ static float* generateNoiseTable(int size)
 		self->_noiseAmount = 0;
 		self->tickLength = aSampleRate * 0.05f;
 		self->phase = 0;
+		self->sineTable = generateSineTable(ContrastSineTableSize);
 		self->noiseTable = generateNoiseTable(ContrastNoiseTableSize);
 		
 		AudioUnitSetParameter(reverbEffect.audioUnit, kReverb2Param_DryWetMix, kAudioUnitScope_Global, 0, 0, 0);
@@ -285,6 +303,7 @@ static float* generateNoiseTable(int size)
 		if (self->phase >= ContrastPhaseCount)
 		{
 			self->phase = 0;
+			self->tickCount = 0;
 		}
 	}
 }
@@ -296,6 +315,7 @@ static float* generateNoiseTable(int size)
 
 - (void)dealloc
 {
+	free(self->sineTable);
 	free(self->noiseTable);
 }
 
