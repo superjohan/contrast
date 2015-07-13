@@ -11,8 +11,15 @@
 static const CGFloat ContrastChannelViewInitialSize = 150;
 static const CGFloat ContrastChannelViewScaleMin = 0.5;
 static const CGFloat ContrastChannelViewScaleMax = 1.5;
+static const CGFloat ContrastChannelViewAngleMin = 0;
+static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 
 @interface ContrastChannelView () <UIGestureRecognizerDelegate>
+
+@property (nonatomic, readonly) CGFloat minX;
+@property (nonatomic, readonly) CGFloat maxX;
+@property (nonatomic, readonly) CGFloat minY;
+@property (nonatomic, readonly) CGFloat maxY;
 
 @property (nonatomic) CGPoint startCenter;
 
@@ -26,42 +33,138 @@ static const CGFloat ContrastChannelViewScaleMax = 1.5;
 
 @property (nonatomic, weak) id<ContrastChannelViewDelegate> delegate;
 
+@property (nonatomic) BOOL animatingToValidConfiguration;
+
 @end
 
 @implementation ContrastChannelView
 
 #pragma mark - Private
 
+- (CGPoint)_normalizedPosition
+{
+	CGPoint position = self.center;
+	if (position.x < self.minX)
+	{
+		position.x = self.minX;
+	}
+	else if (position.x > self.maxX)
+	{
+		position.x = self.maxX;
+	}
+	
+	if (position.y < self.minY)
+	{
+		position.y = self.minY;
+	}
+	else if (position.y > self.maxY)
+	{
+		position.y = self.maxY;
+	}
+	
+	return position;
+}
+
+- (CGFloat)_normalizedScale
+{
+	if (self.currentScale < ContrastChannelViewScaleMin)
+	{
+		return ContrastChannelViewScaleMin;
+	}
+	else if (self.currentScale > ContrastChannelViewScaleMax)
+	{
+		return ContrastChannelViewScaleMax;
+	}
+	
+	return self.currentScale;
+}
+
+- (CGFloat)_normalizedRotation
+{
+	if (self.currentRotation < ContrastChannelViewAngleMin)
+	{
+		return ContrastChannelViewAngleMin;
+	}
+	else if (self.currentRotation > ContrastChannelViewAngleMax)
+	{
+		return ContrastChannelViewAngleMax;
+	}
+	
+	return self.currentRotation;
+}
+
 - (void)_notifyDelegateOfChanges
 {
-	[self.delegate channelView:self updatedWithPosition:self.center scale:self.currentScale rotation:self.currentRotation];
+	[self.delegate channelView:self
+		   updatedWithPosition:[self _normalizedPosition]
+						 scale:[self _normalizedScale]
+					  rotation:[self _normalizedRotation]];
+}
+
+- (void)_animateToValidConfiguration
+{
+	if (self.animatingToValidConfiguration == YES)
+	{
+		return;
+	}
+		
+	self.animatingToValidConfiguration = YES;
+
+	CGPoint center = [self _normalizedPosition];
+	CGFloat scale = [self _normalizedScale];
+	CGFloat rotation = [self _normalizedRotation];
+	
+	[UIView animateWithDuration:UINavigationControllerHideShowBarDuration delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:0 animations:^{
+		self.center = center;
+	
+		[self _applyAffineTransformWithScale:scale rotation:rotation];
+	} completion:^(BOOL finished) {
+		self.animatingToValidConfiguration = NO;
+		
+		self.startCenter = center;
+		self.startScale = scale;
+		self.currentScale = scale;
+		self.startRotation = rotation;
+		self.currentRotation = rotation;
+	}];
+}
+
+- (CGFloat)_resistanceAdjustedValueFromValue:(CGFloat)value limit:(CGFloat)limit leeway:(CGFloat)leeway
+{
+	CGFloat resistance = (ABS(limit - value) / ABS(leeway));
+	CGFloat resistanceValue = value - (resistance * (leeway / 1.3));
+
+	return resistanceValue;
 }
 
 - (void)_panRecognized:(UIPanGestureRecognizer *)panRecognizer
 {
+	if (self.animatingToValidConfiguration)
+	{
+		return;
+	}
+
 	CGPoint translation = [panRecognizer translationInView:self.superview];
-	CGRect superviewBounds = self.superview.bounds;
-	
-	// TODO: Some kind of resistance at the edges would be nice, so that it doesn't just stop.
+	CGFloat leeway = 10;
 	
 	CGFloat x = self.startCenter.x + translation.x;
-	if (x < superviewBounds.origin.x)
+	if (x < self.minX)
 	{
-		x = superviewBounds.origin.x;
+		x = [self _resistanceAdjustedValueFromValue:x limit:self.minX leeway:-leeway];
 	}
-	else if (x > superviewBounds.size.width)
+	else if (x > self.maxX)
 	{
-		x = superviewBounds.size.width;
+		x = [self _resistanceAdjustedValueFromValue:x limit:self.maxX leeway:leeway];
 	}
 	
 	CGFloat y = self.startCenter.y + translation.y;
-	if (y < superviewBounds.origin.y)
+	if (y < self.minY)
 	{
-		y = superviewBounds.origin.y;
+		y = [self _resistanceAdjustedValueFromValue:y limit:self.minY leeway:-leeway];
 	}
-	else if (y > superviewBounds.size.height)
+	else if (y > self.maxY)
 	{
-		y = superviewBounds.size.height;
+		y = [self _resistanceAdjustedValueFromValue:y limit:self.maxY leeway:leeway];
 	}
 	
 	self.center = CGPointMake(x, y);
@@ -70,7 +173,7 @@ static const CGFloat ContrastChannelViewScaleMax = 1.5;
 		panRecognizer.state == UIGestureRecognizerStateCancelled ||
 		panRecognizer.state == UIGestureRecognizerStateFailed)
 	{
-		self.startCenter = self.center;
+		[self _animateToValidConfiguration];
 	}
 	
 	[self _notifyDelegateOfChanges];
@@ -78,18 +181,23 @@ static const CGFloat ContrastChannelViewScaleMax = 1.5;
 
 - (void)_pinchRecognized:(UIPinchGestureRecognizer *)pinchRecognizer
 {
+	if (self.animatingToValidConfiguration)
+	{
+		return;
+	}
+
 	CGFloat scale = pinchRecognizer.scale;
 	CGFloat adjustedScale = self.startScale * scale;
 
-	// TODO: Some kind of resistance at min/max would be nice, so that it doesn't just stop.
-
+	CGFloat leeway = 0.2;
+	
 	if (adjustedScale <= ContrastChannelViewScaleMin)
 	{
-		adjustedScale = ContrastChannelViewScaleMin;
+		adjustedScale = [self _resistanceAdjustedValueFromValue:adjustedScale limit:ContrastChannelViewScaleMin leeway:-leeway];
 	}
 	else if (adjustedScale >= ContrastChannelViewScaleMax)
 	{
-		adjustedScale = ContrastChannelViewScaleMax;
+		adjustedScale = [self _resistanceAdjustedValueFromValue:adjustedScale limit:ContrastChannelViewScaleMax leeway:leeway];
 	}
 	
 	self.currentScale = adjustedScale;
@@ -100,7 +208,7 @@ static const CGFloat ContrastChannelViewScaleMax = 1.5;
 		pinchRecognizer.state == UIGestureRecognizerStateCancelled ||
 		pinchRecognizer.state == UIGestureRecognizerStateFailed)
 	{
-		self.startScale = adjustedScale;
+		[self _animateToValidConfiguration];
 	}
 
 	[self _notifyDelegateOfChanges];
@@ -108,7 +216,23 @@ static const CGFloat ContrastChannelViewScaleMax = 1.5;
 
 - (void)_rotationRecognized:(UIRotationGestureRecognizer *)rotationRecognizer
 {
+	if (self.animatingToValidConfiguration)
+	{
+		return;
+	}
+	
 	self.currentRotation = self.startRotation + rotationRecognizer.rotation;
+	
+	CGFloat leeway = 0.5;
+	
+	if (self.currentRotation < ContrastChannelViewAngleMin)
+	{
+		self.currentRotation = [self _resistanceAdjustedValueFromValue:self.currentRotation limit:ContrastChannelViewAngleMin leeway:-leeway];
+	}
+	else if (self.currentRotation > ContrastChannelViewAngleMax)
+	{
+		self.currentRotation = [self _resistanceAdjustedValueFromValue:self.currentRotation limit:ContrastChannelViewAngleMax leeway:leeway];
+	}
 	
 	[self _applyAffineTransformWithScale:self.currentScale rotation:self.currentRotation];
 
@@ -116,7 +240,7 @@ static const CGFloat ContrastChannelViewScaleMax = 1.5;
 		rotationRecognizer.state == UIGestureRecognizerStateCancelled ||
 		rotationRecognizer.state == UIGestureRecognizerStateFailed)
 	{
-		self.startRotation = self.currentRotation;
+		[self _animateToValidConfiguration];
 	}
 
 	[self _notifyDelegateOfChanges];
@@ -146,6 +270,26 @@ static const CGFloat ContrastChannelViewScaleMax = 1.5;
 }
 
 #pragma mark - Properties
+
+- (CGFloat)minX
+{
+	return self.superview.bounds.origin.x;
+}
+
+- (CGFloat)maxX
+{
+	return self.superview.bounds.size.width;
+}
+
+- (CGFloat)minY
+{
+	return self.superview.bounds.origin.y;
+}
+
+- (CGFloat)maxY
+{
+	return self.superview.bounds.size.height;
+}
 
 - (void)setSilent:(BOOL)silent
 {
