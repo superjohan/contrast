@@ -30,6 +30,7 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 @property (nonatomic) CGFloat currentRotation;
 
 @property (nonatomic) UIView *innerView;
+@property (nonatomic) UIView *indicatorView;
 
 @property (nonatomic, weak) id<ContrastChannelViewDelegate> delegate;
 
@@ -267,6 +268,22 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 	CGAffineTransform rotationTransform = CGAffineTransformRotate(CGAffineTransformIdentity, rotation);
 	CGAffineTransform scaleTransform = CGAffineTransformScale(rotationTransform, scale, scale);
 	self.transform = scaleTransform;
+	
+	CGFloat indicatorBaseHeight = self.innerView.bounds.size.height;
+	CGFloat indicatorHeight = (rotation / (M_PI * 2.0)) * indicatorBaseHeight;
+	if (indicatorHeight > indicatorBaseHeight)
+	{
+		indicatorHeight = indicatorBaseHeight;
+	}
+	else if (indicatorHeight < 0)
+	{
+		indicatorHeight = 0;
+	}
+	
+	self.indicatorView.frame = CGRectMake(self.indicatorView.frame.origin.x,
+										  self.indicatorView.frame.origin.y,
+										  self.indicatorView.frame.size.width,
+										  indicatorHeight);
 }
 
 #pragma mark - Properties
@@ -331,6 +348,12 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 		_innerView.backgroundColor = [UIColor blackColor];
 		[self addSubview:_innerView];
 
+		CGFloat indicatorWidth = ContrastChannelViewInitialSize / 3.0;
+		CGRect indicatorViewFrame = CGRectMake((frame.size.width / 2.0) - (indicatorWidth / 2.0), 0, indicatorWidth, 0);
+		_indicatorView = [[UIView alloc] initWithFrame:indicatorViewFrame];
+		_indicatorView.backgroundColor = [UIColor colorWithWhite:0.25 alpha:1.0];
+		[_innerView addSubview:_indicatorView];
+		
 		[self _applyAffineTransformWithScale:_currentScale rotation:_currentRotation];
 		
 		UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(_panRecognized:)];
