@@ -9,8 +9,8 @@
 #import "ContrastChannelView.h"
 
 static const CGFloat ContrastChannelViewInitialSize = 150;
-static const CGFloat ContrastChannelViewMinimumScale = 0.5;
-static const CGFloat ContrastChannelViewMaximumScale = 1.5;
+static const CGFloat ContrastChannelViewScaleMin = 0.5;
+static const CGFloat ContrastChannelViewScaleMax = 1.5;
 
 @interface ContrastChannelView () <UIGestureRecognizerDelegate>
 
@@ -83,13 +83,13 @@ static const CGFloat ContrastChannelViewMaximumScale = 1.5;
 
 	// TODO: Some kind of resistance at min/max would be nice, so that it doesn't just stop.
 
-	if (adjustedScale <= ContrastChannelViewMinimumScale)
+	if (adjustedScale <= ContrastChannelViewScaleMin)
 	{
-		adjustedScale = ContrastChannelViewMinimumScale;
+		adjustedScale = ContrastChannelViewScaleMin;
 	}
-	else if (adjustedScale >= ContrastChannelViewMaximumScale)
+	else if (adjustedScale >= ContrastChannelViewScaleMax)
 	{
-		adjustedScale = ContrastChannelViewMaximumScale;
+		adjustedScale = ContrastChannelViewScaleMax;
 	}
 	
 	self.currentScale = adjustedScale;
