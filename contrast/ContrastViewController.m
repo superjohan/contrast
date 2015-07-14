@@ -47,6 +47,14 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 	return 0;
 }
 
+- (float)_panPositionFromPoint:(CGPoint)point
+{
+	CGFloat halfWidth = self.view.bounds.size.width / 2.0;
+	CGFloat panPosition = (point.x / halfWidth) - 1.0;
+	
+	return (float)panPosition;
+}
+
 - (void)_addChannelAtPoint:(CGPoint)point
 {
 	if (self.channels.count >= ContrastMaximumChannelCount)
@@ -66,7 +74,8 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 								frequencyPosition:[self _frequencyPositionFromPoint:point]
 										   volume:0.5f
 									 effectAmount:0
-									  noiseAmount:[self _noiseAmountFromPoint:point]];
+									  noiseAmount:[self _noiseAmountFromPoint:point]
+									  panPosition:[self _panPositionFromPoint:point]];
 	
 	[UIView animateWithDuration:UINavigationControllerHideShowBarDuration delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:0 animations:^{
 		channelView.alpha = 1;
@@ -126,7 +135,8 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 								frequencyPosition:[self _frequencyPositionFromPoint:position]
 										   volume:(scale - 0.5f)
 									 effectAmount:[self _effectAmountFromRotation:rotation]
-									  noiseAmount:[self _noiseAmountFromPoint:position]];
+									  noiseAmount:[self _noiseAmountFromPoint:position]
+									  panPosition:[self _panPositionFromPoint:position]];
 }
 
 - (void)channelViewReceivedTap:(ContrastChannelView *)channelView

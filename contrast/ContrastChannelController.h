@@ -20,6 +20,7 @@
 			frequencyPosition:(float)frequencyPosition
 					   volume:(float)volume
 				 effectAmount:(float)effectAmount
-				  noiseAmount:(float)noiseAmount;
+				  noiseAmount:(float)noiseAmount
+				  panPosition:(float)panPosition;
 
 @end

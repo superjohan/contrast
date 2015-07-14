@@ -32,6 +32,8 @@ static const int ContrastNoiseTableSize = 32768;
 	float angle;
 	float previousActive;
 	float previousVolume;
+	float previousPan;
+	float previousFrequency;
 	float *sineTable;
 	float *noiseTable;
 	int tickLength;
@@ -98,16 +100,25 @@ static inline void processTick(ContrastChannel *this, BOOL active)
 
 static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioController, const AudioTimeStamp *time, UInt32 frames, AudioBufferList *audio)
 {
-	float frequency = getFrequencyFromPosition(this->_frequencyPosition);
 	BOOL active = (this->_view != nil);
+
+	float startFrequency = getFrequencyFromPosition(this->_frequencyPosition);
+	float previousFrequency = this->previousFrequency;
+	BOOL frequencyChanged = (startFrequency != previousFrequency) && active;
+	float frequency = startFrequency;
+	
 	BOOL shouldFadeOut = (active == NO && this->previousActive == YES);
 	float startVolume = convertToNonLinear(this->_volume);
 	float volume = startVolume;
 	float previousVolume = this->previousVolume;
 	BOOL volumeChanged = (volume != previousVolume);
-	BOOL interpolating = shouldFadeOut || volumeChanged;
 	
-	// might want to interpolate between frequencies too, but I don't feel that's too important
+	float panPosition = this->_panPosition;
+	float previousPan = this->previousPan;
+	BOOL panChanged = (panPosition != previousPan);
+	float pan = panPosition;
+	
+	BOOL interpolating = frequencyChanged || shouldFadeOut || volumeChanged || panChanged;
 	
 	NSInteger interpolationMax = frames / 2;
 
@@ -123,6 +134,11 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 			{
 				float interpolationPosition = (float)i / (float)interpolationMax;
 				
+				if (frequencyChanged)
+				{
+					frequency = previousFrequency + ((startFrequency - previousFrequency) * interpolationPosition);
+				}
+				
 				if (shouldFadeOut)
 				{
 					volume = (startVolume * (1.0f - interpolationPosition));
@@ -130,6 +146,11 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 				else if (volumeChanged)
 				{
 					volume = previousVolume + ((startVolume - previousVolume) * interpolationPosition);
+				}
+				
+				if (panChanged)
+				{
+					pan = previousPan + ((panPosition - previousPan) * interpolationPosition);
 				}
 			}
 			else
@@ -166,12 +187,14 @@ static OSStatus renderCallback(ContrastChannel *this, AEAudioController *audioCo
 		
 		sample = clamp(sample, -1.0f, 1.0f);
 		
-		((float *)audio->mBuffers[0].mData)[i] = sample;
-		((float *)audio->mBuffers[1].mData)[i] = sample;
+		((float *)audio->mBuffers[0].mData)[i] = (pan >= 0) ? (sample * (1.0f - pan)) : sample;
+		((float *)audio->mBuffers[1].mData)[i] = (pan < 0) ? (sample * (1.0f + pan)) : sample;
 	}
 	
 	this->previousActive = active;
 	this->previousVolume = startVolume;
+	this->previousPan = panPosition;
+	this->previousFrequency = frequency;
 	
 	return noErr;
 }
@@ -262,6 +285,14 @@ static float* generateNoiseTable(int size)
 	@synchronized(self)
 	{
 		_noiseAmount = clamp(noiseAmount, 0, 1);
+	}
+}
+
+- (void)setPanPosition:(float)panPosition
+{
+	@synchronized(self)
+	{
+		_panPosition = clamp(panPosition, -1, 1);
 	}
 }
 

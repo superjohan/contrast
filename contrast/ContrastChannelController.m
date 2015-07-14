@@ -68,6 +68,7 @@ static const NSInteger ContrastChannelAmount = 8;
 					   volume:(float)volume
 				 effectAmount:(float)effectAmount
 				  noiseAmount:(float)noiseAmount
+				  panPosition:(float)panPosition
 {
 	ContrastChannel *channel = nil;
 	
@@ -85,6 +86,7 @@ static const NSInteger ContrastChannelAmount = 8;
 	channel.volume = volume;
 	channel.reverbAmount = effectAmount;
 	channel.noiseAmount = noiseAmount;
+	channel.panPosition = panPosition;
 }
 
 - (instancetype)init
