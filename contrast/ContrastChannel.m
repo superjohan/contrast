@@ -16,8 +16,8 @@
 static const float ContrastChannelFrequencyMinimum = 40.0f;
 static const float ContrastChannelFrequencyMaximum = 3000.0f;
 static const int ContrastMaxTickCount = 64;
-static const int ContrastPhaseCount = 5;
-static const int ContrastPhases[ContrastPhaseCount] = { 0, 16, 8, 4, 2 };
+static const int ContrastPhaseCount = 6;
+static const int ContrastPhases[ContrastPhaseCount] = { 0, 16, 8, 4, 2, -1 };
 static const int ContrastSineTableSize = 16384;
 static const int ContrastNoiseTableSize = 32768;
 
@@ -42,6 +42,7 @@ static const int ContrastNoiseTableSize = 32768;
 	int phase;
 	int noiseCounter;
 	BOOL silent;
+	BOOL isPreviousRandomSoundActive;
 }
 
 #pragma mark - AEAudioPlayable
@@ -68,8 +69,17 @@ static inline void processTick(ContrastChannel *this, BOOL active)
 			this->tickCount++;
 			
 			int phaseCount = ContrastPhases[this->phase];
+			BOOL isInitialPhase = (phaseCount == 0);
+			BOOL isBelowHalfPhase = (this->tickCount % phaseCount) < (phaseCount / 2);
+
+			BOOL eligibleForRandomizedSound = (phaseCount == -1) && arc4random_uniform(2) == 0;
+			BOOL shouldTriggerRandomizedSound = this->tickCount % 2 == 0 || (this->tickCount % 1 == 0 && this->isPreviousRandomSoundActive);
+			BOOL isRandomizedSoundActive = eligibleForRandomizedSound && shouldTriggerRandomizedSound;
+			this->isPreviousRandomSoundActive = isRandomizedSoundActive;
+
+			BOOL shouldPlaySound = isInitialPhase || isBelowHalfPhase || isRandomizedSoundActive;
 			
-			if (phaseCount == 0 || (this->tickCount % phaseCount) < (phaseCount / 2))
+			if (shouldPlaySound)
 			{
 				this->silent = NO;
 				
