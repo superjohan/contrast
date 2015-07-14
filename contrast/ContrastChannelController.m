@@ -15,7 +15,7 @@ static const NSInteger ContrastChannelAmount = 8;
 
 @interface ContrastChannelController ()
 @property (nonatomic) AEAudioController *audioController;
-@property (nonatomic) NSArray<ContrastChannel *> *channels;
+@property (nonatomic) NSArray *channels;
 @end
 
 @implementation ContrastChannelController

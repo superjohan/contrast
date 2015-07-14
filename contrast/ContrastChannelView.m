@@ -392,7 +392,7 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 
 #pragma mark - UIView
 
-- (void)touchesBegan:(nonnull NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event
+- (void)touchesBegan:(nonnull NSSet *)touches withEvent:(nullable UIEvent *)event
 {
 	[super touchesBegan:touches withEvent:event];
 	

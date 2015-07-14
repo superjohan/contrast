@@ -13,7 +13,7 @@
 static const NSInteger ContrastMaximumChannelCount = 8;
 
 @interface ContrastViewController () <ContrastChannelViewDelegate>
-@property (nonatomic) NSMutableArray<ContrastChannelView *> *channels; // FIXME: maybe this isn't necessary
+@property (nonatomic) NSMutableArray *channels; // FIXME: maybe this isn't necessary
 @property (nonatomic) ContrastChannelController *channelController;
 @end
 
@@ -144,6 +144,8 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+	
+	self.view.backgroundColor = [UIColor whiteColor];
 	
 	self.channels = [[NSMutableArray alloc] init];
 	self.channelController = [[ContrastChannelController alloc] init];

@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "ContrastViewController.h"
 
 @interface AppDelegate ()
 
@@ -14,9 +15,14 @@
 
 @implementation AppDelegate
 
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	// Override point for customization after application launch.
+	self.window.rootViewController = [[ContrastViewController alloc] init];
+	
+	[self.window makeKeyAndVisible];
+
 	return YES;
 }
 
