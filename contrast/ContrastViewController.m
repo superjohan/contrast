@@ -15,6 +15,7 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 @interface ContrastViewController () <ContrastChannelViewDelegate>
 @property (nonatomic) NSMutableArray *channels; // FIXME: maybe this isn't necessary
 @property (nonatomic) ContrastChannelController *channelController;
+@property (nonatomic) UILabel *introLabel;
 @end
 
 @implementation ContrastViewController
@@ -62,6 +63,16 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 		// TODO: Maybe indicate somehow that more channels cannot be added?
 		
 		return;
+	}
+	
+	if (self.introLabel != nil)
+	{
+		[UIView animateWithDuration:UINavigationControllerHideShowBarDuration animations:^{
+			self.introLabel.alpha = 0;
+		} completion:^(BOOL finished) {
+			[self.introLabel removeFromSuperview];
+			self.introLabel = nil;
+		}];
 	}
 	
 	ContrastChannelView *channelView = [[ContrastChannelView alloc] initWithCenter:point delegate:self];
@@ -157,11 +168,22 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 	
 	self.view.backgroundColor = CONTRAST_COLOR_CYAN;
 	
+	UILabel *label = [[UILabel alloc] initWithFrame:self.view.bounds];
+	label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	label.backgroundColor = [UIColor clearColor];
+	label.font = [UIFont boldSystemFontOfSize:56.0];
+	label.textColor = CONTRAST_COLOR_OUTLINE;
+	label.numberOfLines = 0;
+	label.lineBreakMode = NSLineBreakByCharWrapping;
+	label.text = NSLocalizedString(@"Contrast by Johan & Jaakko Please use headphones Double-tap to begin", nil);
+	[self.view addSubview:label];
+
+	self.introLabel = label;
+	
 	UIView *patternView = [[UIView alloc] initWithFrame:self.view.bounds];
 	patternView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	UIImage *patternImage = [[UIImage imageNamed:@"pattern"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 	patternView.backgroundColor = [UIColor colorWithPatternImage:patternImage];
-	patternView.tintColor = [UIColor greenColor];
 	patternView.userInteractionEnabled = NO;
 	[self.view addSubview:patternView];
 	
