@@ -155,7 +155,15 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 {
 	[super viewDidLoad];
 	
-	self.view.backgroundColor = [UIColor whiteColor];
+	self.view.backgroundColor = CONTRAST_COLOR_CYAN;
+	
+	UIView *patternView = [[UIView alloc] initWithFrame:self.view.bounds];
+	patternView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	UIImage *patternImage = [[UIImage imageNamed:@"pattern"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+	patternView.backgroundColor = [UIColor colorWithPatternImage:patternImage];
+	patternView.tintColor = [UIColor greenColor];
+	patternView.userInteractionEnabled = NO;
+	[self.view addSubview:patternView];
 	
 	self.channels = [[NSMutableArray alloc] init];
 	self.channelController = [[ContrastChannelController alloc] init];

@@ -270,7 +270,7 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 
 - (CGFloat)_innerViewScaleFromOuterScale:(CGFloat)scale
 {
-	CGFloat padding = 2.0;
+	CGFloat padding = 4.0;
 	CGFloat scaledLength = ContrastChannelViewInitialSize * scale;
 	CGFloat innerViewScale = (scaledLength - (padding * 2.0)) / scaledLength;
 	
@@ -305,7 +305,7 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 
 - (void)drawRect:(CGRect)rect
 {
-	[[UIColor whiteColor] setFill];
+	[CONTRAST_COLOR_OUTLINE setFill];
 	UIRectFill(rect);
 	
 	CGFloat innerViewScale = [self _innerViewScaleFromOuterScale:self.currentScale];
@@ -345,11 +345,11 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 	
 	if (silent)
 	{
-		self.innerView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1.0];
+		self.innerView.backgroundColor = CONTRAST_COLOR_SILENT;
 	}
 	else
 	{
-		self.innerView.backgroundColor = [UIColor colorWithWhite:0 alpha:1.0];
+		self.innerView.backgroundColor = CONTRAST_COLOR_FULL;
 	}
 }
 
@@ -376,13 +376,12 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 		self.opaque = NO;
 		
 		_innerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-		_innerView.backgroundColor = [UIColor blackColor];
 		[self addSubview:_innerView];
 
-		CGFloat indicatorWidth = ContrastChannelViewInitialSize / 3.0;
+		CGFloat indicatorWidth = ContrastChannelViewInitialSize;
 		CGRect indicatorViewFrame = CGRectMake((frame.size.width / 2.0) - (indicatorWidth / 2.0), 0, indicatorWidth, 0);
 		_indicatorView = [[UIView alloc] initWithFrame:indicatorViewFrame];
-		_indicatorView.backgroundColor = [UIColor colorWithWhite:0.25 alpha:1.0];
+		_indicatorView.backgroundColor = CONTRAST_COLOR_MAGENTA;
 		[_innerView addSubview:_indicatorView];
 		
 		[self _applyAffineTransformWithScale:_currentScale rotation:_currentRotation];
