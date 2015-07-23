@@ -303,20 +303,6 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 										  indicatorHeight);
 }
 
-- (void)drawRect:(CGRect)rect
-{
-	[CONTRAST_COLOR_OUTLINE setFill];
-	UIRectFill(rect);
-	
-	CGFloat innerViewScale = [self _innerViewScaleFromOuterScale:self.currentScale];
-	CGFloat length = rect.size.width * innerViewScale;
-	CGFloat origin = (rect.size.width - length) * 0.5;
-	CGRect intersection = CGRectIntersection(CGRectMake(origin, origin, length, length), rect);
-	
-	[[UIColor clearColor] setFill];
-	UIRectFill(intersection);
-}
-
 #pragma mark - Properties
 
 - (CGFloat)minX
@@ -427,6 +413,20 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 	[super touchesBegan:touches withEvent:event];
 	
 	[self.superview bringSubviewToFront:self];
+}
+
+- (void)drawRect:(CGRect)rect
+{
+	[CONTRAST_COLOR_OUTLINE setFill];
+	UIRectFill(rect);
+	
+	CGFloat innerViewScale = [self _innerViewScaleFromOuterScale:self.currentScale];
+	CGFloat length = rect.size.width * innerViewScale;
+	CGFloat origin = (rect.size.width - length) * 0.5;
+	CGRect intersection = CGRectIntersection(CGRectMake(origin, origin, length, length), rect);
+	
+	[[UIColor clearColor] setFill];
+	UIRectFill(intersection);
 }
 
 @end
