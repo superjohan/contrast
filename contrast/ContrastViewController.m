@@ -180,19 +180,32 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 
 	self.introLabel = label;
 	
-	UIView *patternView = [[UIView alloc] initWithFrame:self.view.bounds];
-	patternView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	UIImage *patternImage = [[UIImage imageNamed:@"pattern"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-	patternView.backgroundColor = [UIColor colorWithPatternImage:patternImage];
-	patternView.userInteractionEnabled = NO;
-	[self.view addSubview:patternView];
-	
 	self.channels = [[NSMutableArray alloc] init];
 	self.channelController = [[ContrastChannelController alloc] init];
 	
 	UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_doubleTapRecognized:)];
 	doubleTapRecognizer.numberOfTapsRequired = 2;
 	[self.view addGestureRecognizer:doubleTapRecognizer];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	
+	UIImage *patternImage = [[UIImage imageNamed:@"pattern"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+	CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) + patternImage.size.width, CGRectGetHeight(self.view.bounds));
+	UIView *patternView = [[UIView alloc] initWithFrame:frame];
+	patternView.backgroundColor = [UIColor colorWithPatternImage:patternImage];
+	patternView.userInteractionEnabled = NO;
+	[self.view addSubview:patternView];
+	
+	CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position.x"];
+	CGFloat from = frame.size.width / 2.0;
+	animation.fromValue = @(from);
+	animation.toValue = @(from - patternImage.size.width);
+	animation.duration = 1;
+	animation.repeatCount = MAXFLOAT;
+	[patternView.layer addAnimation:animation forKey:@"animation"];
 }
 
 - (BOOL)prefersStatusBarHidden
