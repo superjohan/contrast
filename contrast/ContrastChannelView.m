@@ -102,6 +102,12 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 					  rotation:[self _normalizedRotation]];
 }
 
+- (void)_updateBorder
+{
+	[self setNeedsDisplay];
+	[[self layer] displayIfNeeded];
+}
+
 - (void)_animateToValidConfiguration
 {
 	if (self.animatingToValidConfiguration == YES)
@@ -119,6 +125,10 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 		self.center = center;
 	
 		[self _applyAffineTransformWithScale:scale rotation:rotation];
+
+		self.currentScale = scale;
+		
+		[self _updateBorder];
 	} completion:^(BOOL finished) {
 		self.animatingToValidConfiguration = NO;
 		
@@ -212,6 +222,7 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 		[self _animateToValidConfiguration];
 	}
 
+	[self _updateBorder];
 	[self _notifyDelegateOfChanges];
 }
 
@@ -257,12 +268,18 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 	[self.delegate channelViewReceivedDoubleTap:self];
 }
 
-- (void)_applyAffineTransformWithScale:(CGFloat)scale rotation:(CGFloat)rotation
+- (CGFloat)_innerViewScaleFromOuterScale:(CGFloat)scale
 {
-	// The border should always be ~two points, so we scale the inner view dynamically as well.
 	CGFloat padding = 2.0;
 	CGFloat scaledLength = ContrastChannelViewInitialSize * scale;
 	CGFloat innerViewScale = (scaledLength - (padding * 2.0)) / scaledLength;
+	
+	return innerViewScale;
+}
+
+- (void)_applyAffineTransformWithScale:(CGFloat)scale rotation:(CGFloat)rotation
+{
+	CGFloat innerViewScale = [self _innerViewScaleFromOuterScale:scale];
 	self.innerView.transform = CGAffineTransformScale(CGAffineTransformIdentity, innerViewScale, innerViewScale);
 	
 	CGAffineTransform rotationTransform = CGAffineTransformRotate(CGAffineTransformIdentity, rotation);
@@ -284,6 +301,20 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 										  self.indicatorView.frame.origin.y,
 										  self.indicatorView.frame.size.width,
 										  indicatorHeight);
+}
+
+- (void)drawRect:(CGRect)rect
+{
+	[[UIColor whiteColor] setFill];
+	UIRectFill(rect);
+	
+	CGFloat innerViewScale = [self _innerViewScaleFromOuterScale:self.currentScale];
+	CGFloat length = rect.size.width * innerViewScale;
+	CGFloat origin = (rect.size.width - length) * 0.5;
+	CGRect intersection = CGRectIntersection(CGRectMake(origin, origin, length, length), rect);
+	
+	[[UIColor clearColor] setFill];
+	UIRectFill(intersection);
 }
 
 #pragma mark - Properties
@@ -342,7 +373,7 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 		_startRotation = 0;
 		_currentRotation = 0;
 		
-		self.backgroundColor = [UIColor whiteColor];
+		self.opaque = NO;
 		
 		_innerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
 		_innerView.backgroundColor = [UIColor blackColor];
