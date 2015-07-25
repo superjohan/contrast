@@ -1,4 +1,4 @@
-# Contrast (working title)
+# Contrast
 
 iOS app that will maybe one day be something finished in the App Store.
 
