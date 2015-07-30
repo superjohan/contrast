@@ -16,6 +16,7 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 @property (nonatomic) NSMutableArray *channels; // FIXME: maybe this isn't necessary
 @property (nonatomic) ContrastChannelController *channelController;
 @property (nonatomic) UILabel *introLabel;
+@property (nonatomic) UIView *patternView;
 @end
 
 @implementation ContrastViewController
@@ -138,6 +139,39 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 	}
 }
 
+- (void)_startBackgroundPatternAnimation
+{
+	UIImage *patternImage = [[UIImage imageNamed:@"pattern"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+	CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) + patternImage.size.width, CGRectGetHeight(self.view.bounds));
+
+	if (self.patternView == nil)
+	{
+		UIView *patternView = [[UIView alloc] initWithFrame:frame];
+		patternView.backgroundColor = [UIColor colorWithPatternImage:patternImage];
+		patternView.userInteractionEnabled = NO;
+		[self.view addSubview:patternView];
+		
+		self.patternView = patternView;
+	}
+	else
+	{
+		self.patternView.frame = frame;
+	}
+	
+	CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position.x"];
+	CGFloat from = frame.size.width / 2.0;
+	animation.fromValue = @(from);
+	animation.toValue = @(from - patternImage.size.width);
+	animation.duration = 1;
+	animation.repeatCount = MAXFLOAT;
+	[self.patternView.layer addAnimation:animation forKey:@"animation"];
+}
+
+- (void)_willEnterForeground:(NSNotification *)notification
+{
+	[self _startBackgroundPatternAnimation];
+}
+
 #pragma mark - ContrastChannelViewDelegate
 
 - (void)channelView:(ContrastChannelView *)channelView updatedWithPosition:(CGPoint)position scale:(CGFloat)scale rotation:(CGFloat)rotation
@@ -166,6 +200,8 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 {
 	[super viewDidLoad];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+	
 	self.view.backgroundColor = CONTRAST_COLOR_CYAN;
 	
 	UILabel *label = [[UILabel alloc] initWithFrame:self.view.bounds];
@@ -191,21 +227,8 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	
-	UIImage *patternImage = [[UIImage imageNamed:@"pattern"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-	CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) + patternImage.size.width, CGRectGetHeight(self.view.bounds));
-	UIView *patternView = [[UIView alloc] initWithFrame:frame];
-	patternView.backgroundColor = [UIColor colorWithPatternImage:patternImage];
-	patternView.userInteractionEnabled = NO;
-	[self.view addSubview:patternView];
-	
-	CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position.x"];
-	CGFloat from = frame.size.width / 2.0;
-	animation.fromValue = @(from);
-	animation.toValue = @(from - patternImage.size.width);
-	animation.duration = 1;
-	animation.repeatCount = MAXFLOAT;
-	[patternView.layer addAnimation:animation forKey:@"animation"];
+
+	[self _startBackgroundPatternAnimation];
 }
 
 - (BOOL)prefersStatusBarHidden
