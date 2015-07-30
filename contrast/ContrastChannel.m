@@ -70,7 +70,7 @@ static inline void processTick(ContrastChannel *this, BOOL active)
 			
 			int phaseCount = ContrastPhases[this->phase];
 			BOOL isInitialPhase = (phaseCount == 0);
-			BOOL isBelowHalfPhase = (this->tickCount % phaseCount) < (phaseCount / 2);
+			BOOL isBelowHalfPhase = (isInitialPhase == NO) && (this->tickCount % phaseCount) < (phaseCount / 2);
 
 			BOOL eligibleForRandomizedSound = (phaseCount == -1) && arc4random_uniform(2) == 0;
 			BOOL shouldTriggerRandomizedSound = this->tickCount % 2 == 0 || (this->tickCount % 1 == 0 && this->isPreviousRandomSoundActive);
