@@ -172,6 +172,25 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 	[self _startBackgroundPatternAnimation];
 }
 
+- (void)_createIntroLabel
+{
+	UILabel *label = [[UILabel alloc] initWithFrame:self.view.bounds];
+	label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	label.backgroundColor = [UIColor clearColor];
+	label.font = [UIFont boldSystemFontOfSize:56.0];
+	label.textColor = CONTRAST_COLOR_OUTLINE;
+	label.numberOfLines = 0;
+	label.lineBreakMode = NSLineBreakByCharWrapping;
+	
+	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Contrast by Johan & Jaakko Please use headphones Double-tap to begin", nil)];
+	[attributedString setAttributes:@{ NSUnderlineStyleAttributeName: @(NSUnderlineStyleThick) } range:NSMakeRange(0, @"Contrast".length)];
+	label.attributedText = attributedString;
+	
+	[self.view addSubview:label];
+	
+	self.introLabel = label;
+}
+
 #pragma mark - ContrastChannelViewDelegate
 
 - (void)channelView:(ContrastChannelView *)channelView updatedWithPosition:(CGPoint)position scale:(CGFloat)scale rotation:(CGFloat)rotation
@@ -204,17 +223,7 @@ static const NSInteger ContrastMaximumChannelCount = 8;
 	
 	self.view.backgroundColor = CONTRAST_COLOR_CYAN;
 	
-	UILabel *label = [[UILabel alloc] initWithFrame:self.view.bounds];
-	label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	label.backgroundColor = [UIColor clearColor];
-	label.font = [UIFont boldSystemFontOfSize:56.0];
-	label.textColor = CONTRAST_COLOR_OUTLINE;
-	label.numberOfLines = 0;
-	label.lineBreakMode = NSLineBreakByCharWrapping;
-	label.text = NSLocalizedString(@"Contrast by Johan & Jaakko Please use headphones Double-tap to begin", nil);
-	[self.view addSubview:label];
-
-	self.introLabel = label;
+	[self _createIntroLabel];
 	
 	self.channels = [[NSMutableArray alloc] init];
 	self.channelController = [[ContrastChannelController alloc] init];
