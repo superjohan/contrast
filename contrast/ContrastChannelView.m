@@ -21,6 +21,7 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 @property (nonatomic, readonly) CGFloat minY;
 @property (nonatomic, readonly) CGFloat maxY;
 
+@property (nonatomic) CGPoint tapStartCenter;
 @property (nonatomic) CGPoint startCenter;
 
 @property (nonatomic) CGFloat startScale;
@@ -260,12 +261,18 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 
 - (void)_tapRecognized:(UITapGestureRecognizer *)tapRecognizer
 {
-	[self.delegate channelViewReceivedTap:self];
+	if (CGPointEqualToPoint(self.tapStartCenter, self.center))
+	{
+		[self.delegate channelViewReceivedTap:self];
+	}
 }
 
 - (void)_doubleTapRecognized:(UITapGestureRecognizer *)tapRecognizer
 {
-	[self.delegate channelViewReceivedDoubleTap:self];
+	if (CGPointEqualToPoint(self.tapStartCenter, self.center))
+	{
+		[self.delegate channelViewReceivedDoubleTap:self];
+	}
 }
 
 - (CGFloat)_innerViewScaleFromOuterScale:(CGFloat)scale
@@ -411,6 +418,8 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 - (void)touchesBegan:(nonnull NSSet *)touches withEvent:(nullable UIEvent *)event
 {
 	[super touchesBegan:touches withEvent:event];
+	
+	self.tapStartCenter = self.center;
 	
 	[self.superview bringSubviewToFront:self];
 }
