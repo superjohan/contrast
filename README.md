@@ -15,3 +15,5 @@ Design by Jaakko Tuomivaara.
 ## Notes
 
 Uses Cocoapods, so remember to `pod install` first, and use the xcworkspace.
+
+Flow is used for branch management, so please create your branches from `develop`.
