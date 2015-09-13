@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4EFC5D7AA4EC4DAE747DBA05 /* libPods-contrast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BBA6FD23091CEFB08F50830 /* libPods-contrast.a */; };
-		900299411B4A8D770093DCE7 /* ContrastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900299401B4A8D770093DCE7 /* ContrastViewController.m */; };
 		900299461B4A8D770093DCE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 900299451B4A8D770093DCE7 /* Assets.xcassets */; };
 		900299521B4A8DED0093DCE7 /* ContrastChannelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 900299511B4A8DED0093DCE7 /* ContrastChannelView.m */; };
 		907BFB471B4EB17300227D7F /* ContrastChannelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907BFB461B4EB17300227D7F /* ContrastChannelController.m */; };
@@ -19,8 +18,6 @@
 
 /* Begin PBXFileReference section */
 		900299361B4A8D770093DCE7 /* contrast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = contrast.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9002993F1B4A8D770093DCE7 /* ContrastViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContrastViewController.h; sourceTree = "<group>"; };
-		900299401B4A8D770093DCE7 /* ContrastViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContrastViewController.m; sourceTree = "<group>"; };
 		900299451B4A8D770093DCE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9002994A1B4A8D770093DCE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		900299501B4A8DED0093DCE7 /* ContrastChannelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContrastChannelView.h; sourceTree = "<group>"; };
@@ -89,8 +86,6 @@
 			children = (
 				90CF93EF1BA5E9A20082F247 /* AppDelegate.swift */,
 				90CF93ED1BA5D0700082F247 /* ContrastSwiftViewController.swift */,
-				9002993F1B4A8D770093DCE7 /* ContrastViewController.h */,
-				900299401B4A8D770093DCE7 /* ContrastViewController.m */,
 				900299501B4A8DED0093DCE7 /* ContrastChannelView.h */,
 				900299511B4A8DED0093DCE7 /* ContrastChannelView.m */,
 				907BFB451B4EB17300227D7F /* ContrastChannelController.h */,
@@ -210,7 +205,6 @@
 			files = (
 				90CF93F01BA5E9A20082F247 /* AppDelegate.swift in Sources */,
 				907BFB471B4EB17300227D7F /* ContrastChannelController.m in Sources */,
-				900299411B4A8D770093DCE7 /* ContrastViewController.m in Sources */,
 				907BFB4A1B4EB30100227D7F /* ContrastChannel.m in Sources */,
 				90CF93EE1BA5D0700082F247 /* ContrastSwiftViewController.swift in Sources */,
 				900299521B4A8DED0093DCE7 /* ContrastChannelView.m in Sources */,

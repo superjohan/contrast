@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
 		self.window = UIWindow.init(frame: UIScreen.mainScreen().bounds)
-		self.window?.rootViewController = ContrastSwiftViewController.init()
+		self.window?.rootViewController = ContrastViewController.init()
 		self.window?.makeKeyAndVisible()
 		
 		return true

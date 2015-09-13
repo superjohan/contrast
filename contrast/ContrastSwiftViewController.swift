@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContrastSwiftViewController: UIViewController, ContrastChannelViewDelegate {
+class ContrastViewController: UIViewController, ContrastChannelViewDelegate {
 	let maximumChannelCount = 8
 	let animationDuration = 0.2
 	
@@ -72,6 +72,7 @@ class ContrastSwiftViewController: UIViewController, ContrastChannelViewDelegate
 		self.view.addSubview(channelView)
 		self.channels.append(channelView)
 		self.channelController.addView(channelView)
+		// TODO: have the functions return Floats
 		self.channelController.updateChannelWithView(
 			channelView,
 			frequencyPosition: Float(self.frequencyPosition(point)),
