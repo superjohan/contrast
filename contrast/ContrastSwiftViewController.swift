@@ -74,11 +74,11 @@ class ContrastSwiftViewController: UIViewController, ContrastChannelViewDelegate
 		self.channelController.addView(channelView)
 		self.channelController.updateChannelWithView(
 			channelView,
-			frequencyPosition: 0, // FIXME
+			frequencyPosition: Float(self.frequencyPosition(point)),
 			volume: 0.5,
 			effectAmount: 0,
-			noiseAmount: 0, // FIXME
-			panPosition: 0 // FIXME
+			noiseAmount: Float(self.noiseAmount(point)),
+			panPosition: Float(self.panPosition(point))
 		)
 		
 		UIView.animateWithDuration(
