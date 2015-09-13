@@ -114,6 +114,7 @@ class ContrastSwiftViewController: UIViewController, ContrastChannelViewDelegate
 		)
 	}
 	
+	@objc(doubleTapRecognized:)
 	private func doubleTapRecognized(tapRecognizer: UITapGestureRecognizer) {
 		let location = tapRecognizer.locationInView(self.view)
 		let view = self.view.hitTest(location, withEvent: nil)
@@ -166,6 +167,7 @@ class ContrastSwiftViewController: UIViewController, ContrastChannelViewDelegate
 		self.patternView?.layer.addAnimation(animation, forKey: "animation")
 	}
 	
+	@objc(willEnterForeground:)
 	private func willEnterForeground(notification: NSNotification) {
 		self.startBackgroundPatternAnimation()
 	}
