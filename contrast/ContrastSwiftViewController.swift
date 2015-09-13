@@ -177,7 +177,7 @@ class ContrastSwiftViewController: UIViewController, ContrastChannelViewDelegate
 		label.autoresizingMask = [ UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight ]
 		label.backgroundColor = UIColor.clearColor()
 		label.font = UIFont.boldSystemFontOfSize(56.0)
-		label.textColor = UIColor.whiteColor() // FIXME
+		label.textColor = ContrastChannelView.outlineColor()
 		label.numberOfLines = 0
 		label.lineBreakMode = NSLineBreakMode.ByCharWrapping
 		
@@ -219,7 +219,7 @@ class ContrastSwiftViewController: UIViewController, ContrastChannelViewDelegate
 		
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector.init("willEnterForeground:"), name: UIApplicationWillEnterForegroundNotification, object: nil)
 		
-		self.view.backgroundColor = UIColor.blackColor() // FIXME
+		self.view.backgroundColor = ContrastChannelView.cyanColor()
 		
 		self.createIntroLabel()
 		

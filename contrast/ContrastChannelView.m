@@ -338,15 +338,40 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 	
 	if (silent)
 	{
-		self.innerView.backgroundColor = CONTRAST_COLOR_SILENT;
+		self.innerView.backgroundColor = [ContrastChannelView silentColor];
 	}
 	else
 	{
-		self.innerView.backgroundColor = CONTRAST_COLOR_FULL;
+		self.innerView.backgroundColor = [ContrastChannelView fullColor];
 	}
 }
 
 #pragma mark - Public
+
++ (UIColor *)outlineColor
+{
+	return [UIColor colorWithRed:(253.0 / 255.0) green:(225.0 / 255.0) blue:(209.0 / 255.0) alpha:1.0];
+}
+
++ (UIColor *)fullColor
+{
+	return [UIColor colorWithRed:(253.0 / 255.0) green:(225.0 / 255.0) blue:(209.0 / 255.0) alpha:0.75];
+}
+
++ (UIColor *)silentColor
+{
+	return [UIColor colorWithRed:(253.0 / 255.0) green:(225.0 / 255.0) blue:(209.0 / 255.0) alpha:0.25];
+}
+
++ (UIColor *)cyanColor
+{
+	return [UIColor colorWithRed:(0 / 255.0) green:(158.0 / 255.0) blue:(226.0 / 255.0) alpha:1.0];
+}
+
++ (UIColor *)magentaColor
+{
+	return [UIColor colorWithRed:(229.0 / 255.0) green:(0 / 255.0) blue:(126.0 / 255.0) alpha:0.75];
+}
 
 - (instancetype)initWithCenter:(CGPoint)center delegate:(id<ContrastChannelViewDelegate>)delegate;
 {
@@ -374,7 +399,7 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 		CGFloat indicatorWidth = ContrastChannelViewInitialSize;
 		CGRect indicatorViewFrame = CGRectMake((frame.size.width / 2.0) - (indicatorWidth / 2.0), 0, indicatorWidth, 0);
 		_indicatorView = [[UIView alloc] initWithFrame:indicatorViewFrame];
-		_indicatorView.backgroundColor = CONTRAST_COLOR_MAGENTA;
+		_indicatorView.backgroundColor = [ContrastChannelView magentaColor];
 		[_innerView addSubview:_indicatorView];
 		
 		[self _applyAffineTransformWithScale:_currentScale rotation:_currentRotation];
@@ -426,7 +451,7 @@ static const CGFloat ContrastChannelViewAngleMax = M_PI * 2.0;
 
 - (void)drawRect:(CGRect)rect
 {
-	[CONTRAST_COLOR_OUTLINE setFill];
+	[[ContrastChannelView outlineColor] setFill];
 	UIRectFill(rect);
 	
 	CGFloat innerViewScale = [self _innerViewScaleFromOuterScale:self.currentScale];
