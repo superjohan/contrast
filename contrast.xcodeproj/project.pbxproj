@@ -15,6 +15,7 @@
 		900299521B4A8DED0093DCE7 /* ContrastChannelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 900299511B4A8DED0093DCE7 /* ContrastChannelView.m */; };
 		907BFB471B4EB17300227D7F /* ContrastChannelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907BFB461B4EB17300227D7F /* ContrastChannelController.m */; };
 		907BFB4A1B4EB30100227D7F /* ContrastChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 907BFB491B4EB30100227D7F /* ContrastChannel.m */; };
+		90CF93EE1BA5D0700082F247 /* ContrastSwiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CF93ED1BA5D0700082F247 /* ContrastSwiftViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,8 @@
 		907BFB461B4EB17300227D7F /* ContrastChannelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContrastChannelController.m; sourceTree = "<group>"; };
 		907BFB481B4EB30100227D7F /* ContrastChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContrastChannel.h; sourceTree = "<group>"; };
 		907BFB491B4EB30100227D7F /* ContrastChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContrastChannel.m; sourceTree = "<group>"; };
+		90CF93EC1BA5D06F0082F247 /* contrast-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "contrast-Bridging-Header.h"; sourceTree = "<group>"; };
+		90CF93ED1BA5D0700082F247 /* ContrastSwiftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContrastSwiftViewController.swift; sourceTree = "<group>"; };
 		9BBA6FD23091CEFB08F50830 /* libPods-contrast.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-contrast.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9E248AAAD369F08F65DE5ED /* Pods-contrast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-contrast.release.xcconfig"; path = "Pods/Target Support Files/Pods-contrast/Pods-contrast.release.xcconfig"; sourceTree = "<group>"; };
 		D935FF7E6CBF355ED909017D /* Pods-contrast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-contrast.debug.xcconfig"; path = "Pods/Target Support Files/Pods-contrast/Pods-contrast.debug.xcconfig"; sourceTree = "<group>"; };
@@ -89,6 +92,7 @@
 			children = (
 				9002993C1B4A8D770093DCE7 /* AppDelegate.h */,
 				9002993D1B4A8D770093DCE7 /* AppDelegate.m */,
+				90CF93ED1BA5D0700082F247 /* ContrastSwiftViewController.swift */,
 				9002993F1B4A8D770093DCE7 /* ContrastViewController.h */,
 				900299401B4A8D770093DCE7 /* ContrastViewController.m */,
 				900299501B4A8DED0093DCE7 /* ContrastChannelView.h */,
@@ -100,6 +104,7 @@
 				900299451B4A8D770093DCE7 /* Assets.xcassets */,
 				9002994A1B4A8D770093DCE7 /* Info.plist */,
 				900299391B4A8D770093DCE7 /* Supporting Files */,
+				90CF93EC1BA5D06F0082F247 /* contrast-Bridging-Header.h */,
 			);
 			path = contrast;
 			sourceTree = "<group>";
@@ -140,6 +145,7 @@
 		9002992E1B4A8D770093DCE7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Aero Deko";
 				TargetAttributes = {
@@ -219,6 +225,7 @@
 				900299411B4A8D770093DCE7 /* ContrastViewController.m in Sources */,
 				9002993E1B4A8D770093DCE7 /* AppDelegate.m in Sources */,
 				907BFB4A1B4EB30100227D7F /* ContrastChannel.m in Sources */,
+				90CF93EE1BA5D0700082F247 /* ContrastSwiftViewController.swift in Sources */,
 				900299521B4A8DED0093DCE7 /* ContrastChannelView.m in Sources */,
 				9002993B1B4A8D770093DCE7 /* main.m in Sources */,
 			);
@@ -313,11 +320,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = contrast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aerodeko.contrast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "contrast/contrast-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -327,6 +337,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Johan Halin (T583396HNX)";
 				INFOPLIST_FILE = contrast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -334,6 +345,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aerodeko.contrast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "52ccc706-914d-45b6-89bf-8a5dccfb8c35";
+				SWIFT_OBJC_BRIDGING_HEADER = "contrast/contrast-Bridging-Header.h";
 			};
 			name = Release;
 		};
