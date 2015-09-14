@@ -183,8 +183,7 @@ class ContrastViewController: UIViewController, ContrastChannelViewDelegate {
 		label.lineBreakMode = NSLineBreakMode.ByCharWrapping
 		
 		let attributedString = NSMutableAttributedString.init(string: NSLocalizedString("Contrast by Johan & Jaakko Please use headphones Double-tap to begin", comment: ""))
-		// FIXME: how the fuck does this work
-//		attributedString.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleThick as! AnyObject, range: NSMakeRange(0, "Contrast".lengthOfBytesUsingEncoding(NSUTF8StringEncoding)))
+		attributedString.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleThick.rawValue, range: NSMakeRange(0, "Contrast".lengthOfBytesUsingEncoding(NSUTF8StringEncoding)))
 		label.attributedText = attributedString
 		
 		self.view.addSubview(label)
